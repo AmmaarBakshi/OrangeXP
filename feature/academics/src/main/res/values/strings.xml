@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="academics_title">Academics</string>
+    <string name="tab_plan">Plan</string>
+    <string name="tab_syllabus">Syllabus</string>
+    <string name="tab_timetable">Timetable</string>
+
+    <string name="plan_forecast">Forecast</string>
+    <string name="plan_upcoming">Next two weeks</string>
+    <string name="plan_empty">No study planned. Add subjects with topics, and study windows below the timetable.</string>
+    <string name="plan_item">%1$s · %2$s</string>
+    <string name="plan_part">part %1$d/%2$d</string>
+    <string name="status_complete">Complete</string>
+    <string name="status_on_track">On track</string>
+    <string name="status_at_risk">At risk</string>
+    <string name="status_deadline_passed">Exam passed</string>
+    <string name="forecast_detail">%1$s left · finishes %2$s</string>
+    <string name="forecast_shortfall">%1$s does not fit before %2$s</string>
+    <string name="forecast_no_finish">not scheduled</string>
+
+    <string name="syllabus_empty">No subjects yet. Add one to start planning.</string>
+    <string name="syllabus_add_subject">Add subject</string>
+    <string name="syllabus_add_unit">Add unit</string>
+    <string name="syllabus_add_topic">Add topic</string>
+    <string name="syllabus_progress">%1$d / %2$d topics</string>
+    <string name="syllabus_exam">Exam %1$s</string>
+    <string name="syllabus_no_exam">No exam date</string>
+    <string name="syllabus_topic_detail">%1$s · difficulty %2$d</string>
+    <string name="syllabus_edit_subject">Edit subject</string>
+    <string name="syllabus_delete">Delete</string>
+
+    <string name="timetable_empty">No classes yet.</string>
+    <string name="timetable_add_class">Add class</string>
+    <string name="timetable_conflict">%1$s overlaps %2$s by %3$d min</string>
+    <string name="timetable_travel">travel</string>
+    <string name="study_windows">Study windows</string>
+    <string name="study_windows_hint">The scheduler plans study only inside these windows, minus classes and travel.</string>
+    <string name="study_windows_add">Add study window</string>
+
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">OK</string>
+    <string name="field_name">Name</string>
+    <string name="field_title">Title</string>
+    <string name="field_priority">Priority: %1$d</string>
+    <string name="field_exam_date">Exam date</string>
+    <string name="field_set_exam_date">Set exam date</string>
+    <string name="field_clear">Clear</string>
+    <string name="field_minutes">Estimated minutes</string>
+    <string name="field_difficulty">Difficulty: %1$d</string>
+    <string name="field_weekday">Day</string>
+    <string name="field_start">Starts %1$s</string>
+    <string name="field_end">Ends %1$s</string>
+    <string name="field_location">Location</string>
+    <string name="field_teacher">Teacher</string>
+    <string name="field_requires_travel">Requires travel</string>
+    <string name="field_travel_minutes">Travel minutes (optional)</string>
+    <string name="field_prep_minutes">Preparation minutes (optional)</string>
+    <string name="field_invalid_time">End must be after start</string>
+</resources>

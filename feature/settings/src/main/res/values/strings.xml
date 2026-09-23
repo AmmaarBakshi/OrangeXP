@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+
+    <string name="section_tracking">Tracking</string>
+    <string name="perm_usage">Usage access</string>
+    <string name="perm_usage_detail">Screen and unlock history for sleep estimation</string>
+    <string name="perm_activity">Activity recognition</string>
+    <string name="perm_activity_detail">Step counter</string>
+    <string name="perm_notifications">Notifications</string>
+    <string name="perm_notifications_detail">Preparation and departure reminders</string>
+    <string name="perm_granted">Granted</string>
+    <string name="perm_open">Open</string>
+    <string name="perm_no_sensor">No step sensor on this device</string>
+
+    <string name="section_scoring">Scoring rules</string>
+    <string name="section_scoring_hint">Each rule turns one measurement into points. Caps stop any single activity from dominating. There are no multipliers or streak bonuses.</string>
+    <string name="curve_linear">%1$s pts per %2$s</string>
+    <string name="curve_linear_free">%1$s pts per %2$s after %3$s</string>
+    <string name="curve_steps">%1$d step thresholds</string>
+    <string name="curve_piecewise">Curve through %1$d points</string>
+    <string name="rule_cap">cap %1$s</string>
+    <string name="rule_floor">floor %1$s</string>
+    <string name="rule_edit_rate">Points per unit</string>
+    <string name="rule_edit_cap">Maximum points (blank for none)</string>
+    <string name="rule_edit_curve_hint">Curves and step rules can be edited through configuration import.</string>
+
+    <string name="section_states">Day state thresholds</string>
+    <string name="section_states_hint">Personal rules, not medical guidance. The day takes the most severe state reached.</string>
+    <string name="state_thresholds">Orange %1$s · Red %2$s · Black %3$s</string>
+    <string name="state_higher_worse">Higher is worse</string>
+    <string name="state_lower_worse">Lower is worse</string>
+    <string name="field_orange">Orange at</string>
+    <string name="field_red">Red at</string>
+    <string name="field_black">Black at</string>
+
+    <string name="section_sleep">Sleep estimation</string>
+    <string name="sleep_threshold">Inactivity before sleep</string>
+    <string name="sleep_awake_reset">Rest that resets the awake clock</string>
+    <string name="sleep_window">Usual sleep window</string>
+    <string name="field_window_start">Window start (minute of day)</string>
+    <string name="field_window_end">Window end (minute of day)</string>
+
+    <string name="section_travel">Travel</string>
+    <string name="travel_default">Default travel time</string>
+    <string name="travel_prep">Preparation</string>
+    <string name="travel_packing">Packing</string>
+    <string name="travel_buffer">Safety buffer</string>
+
+    <string name="section_study">Study scheduler</string>
+    <string name="study_chunk">Study block length</string>
+    <string name="study_max">Max per subject per day</string>
+    <string name="study_revision">Finish before exam (days)</string>
+
+    <string name="section_streak">Streak and heatmap</string>
+    <string name="streak_min">Streak minimum points</string>
+    <string name="streak_state">Worst state that keeps a streak</string>
+    <string name="heatmap_target">Heatmap full-intensity target</string>
+    <string name="heatmap_quantile">Relative to your own history</string>
+
+    <string name="section_config">Configuration</string>
+    <string name="config_export">Export rules as JSON</string>
+    <string name="config_import">Import rules from JSON</string>
+    <string name="config_import_hint">Paste a configuration exported from OrangeXP.</string>
+    <string name="config_reset">Reset all rules to defaults</string>
+    <string name="config_issues">Not saved: %1$s</string>
+
+    <string name="section_about">About</string>
+    <string name="about_version">Version %1$s · engine %2$s</string>
+    <string name="about_privacy">Everything OrangeXP measures stays on this phone. There is no account, no server and no AI: every score comes from the rules above.</string>
+
+    <string name="unit_minutes">min</string>
+    <string name="unit_step">step</string>
+    <string name="unit_meter">m</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_each">item</string>
+
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
+</resources>

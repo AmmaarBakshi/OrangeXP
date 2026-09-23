@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="today_title">Today</string>
+    <string name="today_points">Points today</string>
+    <string name="today_streak">%1$d day streak</string>
+    <string name="today_no_streak">No active streak</string>
+    <string name="today_state_reason">Set by: %1$s</string>
+    <string name="today_this_week">This week</string>
+
+    <string name="metric_sleep">Sleep</string>
+    <string name="metric_sleep_estimated">Estimated · %1$d%% confidence</string>
+    <string name="metric_sleep_unknown">Not detected yet</string>
+    <string name="metric_awake">Awake</string>
+    <string name="metric_awake_since">Since %1$s</string>
+    <string name="metric_asleep">Resting</string>
+    <string name="metric_asleep_since">Idle since %1$s</string>
+    <string name="metric_walked">Walked</string>
+    <string name="metric_steps">%1$s steps</string>
+    <string name="metric_syllabus">Syllabus</string>
+    <string name="metric_syllabus_detail">Planned topics done</string>
+    <string name="metric_none">—</string>
+
+    <string name="departure_title">Departure</string>
+    <string name="departure_prepare">Start preparing</string>
+    <string name="departure_leave">Leave home</string>
+    <string name="departure_class">Class starts</string>
+    <string name="departure_detail">%1$d min travel (%2$s) · arrive %3$d min early</string>
+    <string name="departure_source_configured">default estimate</string>
+    <string name="departure_source_slot">class setting</string>
+    <string name="departure_source_history">from your trips</string>
+    <string name="departure_left">I\'ve left</string>
+    <string name="departure_arrived">Arrived</string>
+    <string name="departure_left_at">Left at %1$s</string>
+    <string name="departure_arrived_at">Left %1$s · arrived %2$s</string>
+
+    <string name="classes_title">Classes</string>
+    <string name="classes_empty">No classes today.</string>
+    <string name="attendance_attended">Attended</string>
+    <string name="attendance_missed">Missed</string>
+    <string name="attendance_cancelled">Cancelled</string>
+
+    <string name="plan_title">Study plan</string>
+    <string name="plan_empty">Nothing planned. Add a syllabus in Academics.</string>
+    <string name="plan_part">Part %1$d of %2$d · %3$s</string>
+    <string name="plan_start">Start timer</string>
+    <string name="plan_stop">Stop timer</string>
+    <string name="plan_running">Studying · %1$s</string>
+    <string name="plan_mark_done">Mark topic done</string>
+
+    <string name="breakdown_title">Where today\'s points come from</string>
+
+    <string name="setup_title">Finish setting up tracking</string>
+    <string name="setup_usage_body">Usage access lets OrangeXP estimate sleep and awake time from screen and unlock history. It never leaves this phone.</string>
+    <string name="setup_usage_action">Grant usage access</string>
+    <string name="setup_activity_body">Activity recognition lets OrangeXP read the step counter.</string>
+    <string name="setup_activity_action">Allow step counting</string>
+    <string name="setup_notifications_body">Notifications tell you when to start preparing and when to leave.</string>
+    <string name="setup_notifications_action">Allow notifications</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_title">History</string>
+    <string name="history_lifetime">Lifetime XP</string>
+    <string name="history_pool_sleep">Sleep XP</string>
+    <string name="history_pool_study">Study XP</string>
+    <string name="history_pool_physical">Physical XP</string>
+    <string name="history_pool_discipline">Discipline XP</string>
+    <string name="history_heatmap">Contribution history</string>
+    <string name="history_heatmap_description">One square per day for the past year. Darker orange means more points.</string>
+    <string name="history_less">Less</string>
+    <string name="history_more">More</string>
+    <string name="history_active_days">%1$d active days in this period</string>
+    <string name="history_streak">Streak</string>
+    <string name="history_streak_current">Current</string>
+    <string name="history_streak_longest">Longest</string>
+    <string name="history_days">%1$d days</string>
+    <string name="history_stats">Statistics</string>
+    <string name="history_avg7">7-day average</string>
+    <string name="history_avg30">30-day average</string>
+    <string name="history_consistency">Consistency (30 d)</string>
+    <string name="history_trend">Trend (30 d)</string>
+    <string name="history_trend_value">%1$s / day</string>
+    <string name="history_median">Median day</string>
+    <string name="history_best">Best day</string>
+    <string name="history_tracked">Days tracked</string>
+    <string name="history_select_hint">Tap a square to inspect that day.</string>
+    <string name="history_no_data">Nothing was recorded on this day.</string>
+</resources>
