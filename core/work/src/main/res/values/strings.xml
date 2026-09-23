@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_departures_name">Departure reminders</string>
+    <string name="channel_departures_description">When to start preparing and when to leave for your first class.</string>
+    <string name="reminder_prepare_title">Start preparing</string>
+    <string name="reminder_prepare_body">%1$s starts at %2$s. Leave by %3$s.</string>
+    <string name="reminder_leave_title">Leave now</string>
+    <string name="reminder_leave_body">%1$s starts at %2$s. Leaving now puts you there %3$d min early.</string>
+</resources>

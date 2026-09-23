@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_green">Green</string>
+    <string name="state_orange">Orange</string>
+    <string name="state_red">Red</string>
+    <string name="state_black">Black</string>
+
+    <string name="category_sleep">Sleep</string>
+    <string name="category_wakefulness">Wakefulness</string>
+    <string name="category_study">Study</string>
+    <string name="category_syllabus">Syllabus</string>
+    <string name="category_attendance">Attendance</string>
+    <string name="category_walking">Walking</string>
+    <string name="category_physical_activity">Physical activity</string>
+    <string name="category_schedule">Schedule</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_task_completion">Tasks</string>
+    <string name="category_phone_usage">Phone usage</string>
+
+    <string name="breakdown_total">Total</string>
+    <string name="breakdown_capped">capped</string>
+    <string name="breakdown_empty_title">Nothing measured yet</string>
+    <string name="breakdown_empty_body">Points appear as the day is measured.</string>
+</resources>
