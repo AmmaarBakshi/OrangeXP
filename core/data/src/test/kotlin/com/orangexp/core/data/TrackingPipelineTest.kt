@@ -6,6 +6,7 @@ import com.orangexp.core.common.time.TimeSource
 import com.orangexp.core.common.time.dayWindow
 import com.orangexp.core.data.model.AttendanceStatus
 import com.orangexp.core.data.model.TimetableEntry
+import com.orangexp.core.data.repository.DataChangeNotifier
 import com.orangexp.core.data.repository.OfflineAcademicRepository
 import com.orangexp.core.data.repository.OfflineConfigRepository
 import com.orangexp.core.data.repository.OfflineDayRepository
@@ -86,14 +87,16 @@ class TrackingPipelineTest {
             .build()
         val engine = UniffiOrangeEngine()
         val dispatcher = Dispatchers.Unconfined
+        val noChanges = DataChangeNotifier(emptySet())
         val config = OfflineConfigRepository(db.keyValueDao(), engine, dispatcher)
         academics = OfflineAcademicRepository(
             db.timetableDao(), db.syllabusDao(), db.studyDao(), db.attendanceDao(), db.keyValueDao(),
-            config, engine, clock, dispatcher,
+            config, engine, clock, noChanges, dispatcher,
         )
         days = OfflineDayRepository(
             db.dayRecordDao(), db.deviceEventDao(), db.sleepDao(), db.stepsDao(), db.studyDao(), db.syllabusDao(),
-            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.keyValueDao(), config, engine, clock, dispatcher,
+            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.keyValueDao(), config, engine, clock, noChanges,
+            dispatcher,
         )
         travel = OfflineTravelRepository(db.travelDao(), academics, config, engine, clock, dispatcher)
         coordinator = DefaultTrackingCoordinator(

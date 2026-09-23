@@ -2,6 +2,7 @@ package com.orangexp.core.data.di
 
 import com.orangexp.core.data.repository.AcademicRepository
 import com.orangexp.core.data.repository.ConfigRepository
+import com.orangexp.core.data.repository.DataChangeListener
 import com.orangexp.core.data.repository.DayRepository
 import com.orangexp.core.data.repository.OfflineAcademicRepository
 import com.orangexp.core.data.repository.OfflineConfigRepository
@@ -14,6 +15,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.Multibinds
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,4 +25,7 @@ internal interface DataModule {
     @Binds fun academic(impl: OfflineAcademicRepository): AcademicRepository
     @Binds fun travel(impl: OfflineTravelRepository): TravelRepository
     @Binds fun tracking(impl: DefaultTrackingCoordinator): TrackingCoordinator
+
+    /** Empty unless a module (e.g. widgets) contributes listeners. */
+    @Multibinds fun changeListeners(): Set<DataChangeListener>
 }

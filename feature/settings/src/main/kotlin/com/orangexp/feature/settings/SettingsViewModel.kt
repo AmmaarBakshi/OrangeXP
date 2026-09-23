@@ -4,6 +4,8 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.orangexp.core.common.widgets.HomeWidgetKind
+import com.orangexp.core.common.widgets.HomeWidgets
 import com.orangexp.core.data.repository.ConfigRepository
 import com.orangexp.core.engine.OrangeEngine
 import com.orangexp.core.engine.ffi.ConfigIssue
@@ -36,8 +38,14 @@ data class SettingsUiState(
 class SettingsViewModel @Inject constructor(
     private val configRepository: ConfigRepository,
     private val permissionChecker: TrackingPermissionChecker,
+    private val homeWidgets: HomeWidgets,
     engine: OrangeEngine,
 ) : ViewModel() {
+
+    val canPinWidgets: Boolean = homeWidgets.canPin()
+
+    fun addWidget(kind: HomeWidgetKind) = launch { homeWidgets.requestPin(kind) }
+
 
     private val permissions = MutableStateFlow(permissionChecker.current())
     private val issues = MutableStateFlow<List<ConfigIssue>>(emptyList())

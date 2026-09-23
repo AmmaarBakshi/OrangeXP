@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.orangexp.core.common.widgets.HomeWidgetKind
 import com.orangexp.core.designsystem.component.OxCard
 import com.orangexp.core.designsystem.component.SectionLabel
 import com.orangexp.core.designsystem.format.OxFormat
@@ -111,6 +112,7 @@ private fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         state.permissions?.let { perms -> item { PermissionsCard(perms, openUsageAccess, openAppSettings) } }
+        if (viewModel.canPinWidgets) item { WidgetsCard(viewModel::addWidget) }
         if (state.issues.isNotEmpty()) {
             item {
                 Text(
@@ -163,6 +165,25 @@ private fun PermissionsCard(perms: TrackingPermissions, openUsageAccess: () -> U
             openAppSettings,
         )
         PermissionRow(stringResource(R.string.perm_notifications), stringResource(R.string.perm_notifications_detail), perms.notifications, openAppSettings)
+    }
+}
+
+@Composable
+private fun WidgetsCard(onAdd: (HomeWidgetKind) -> Unit) {
+    OxCard {
+        SectionLabel(stringResource(R.string.section_widgets))
+        Text(stringResource(R.string.widgets_hint), style = MaterialTheme.typography.bodySmall, color = OxTheme.colors.subtle)
+        listOf(
+            HomeWidgetKind.SCORE to R.string.widget_kind_score,
+            HomeWidgetKind.STREAK to R.string.widget_kind_streak,
+            HomeWidgetKind.TIMETABLE to R.string.widget_kind_timetable,
+            HomeWidgetKind.STATS to R.string.widget_kind_stats,
+        ).forEach { (kind, label) ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(label), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                TextButton(onClick = { onAdd(kind) }) { Text(stringResource(R.string.widgets_add)) }
+            }
+        }
     }
 }
 

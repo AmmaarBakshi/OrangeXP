@@ -13,6 +13,14 @@
     <string name="perm_open">Open</string>
     <string name="perm_no_sensor">No step sensor on this device</string>
 
+    <string name="section_widgets">Home screen widgets</string>
+    <string name="widgets_hint">Add a widget directly, or long-press your home screen and choose Widgets → OrangeXP. Widgets refresh whenever your day is re-scored.</string>
+    <string name="widgets_add">Add</string>
+    <string name="widget_kind_score">Score and streak</string>
+    <string name="widget_kind_streak">Streak calendar</string>
+    <string name="widget_kind_timetable">Timetable</string>
+    <string name="widget_kind_stats">Statistics</string>
+
     <string name="section_scoring">Scoring rules</string>
     <string name="section_scoring_hint">Each rule turns one measurement into points. Caps stop any single activity from dominating. There are no multipliers or streak bonuses.</string>
     <string name="curve_linear">%1$s pts per %2$s</string>

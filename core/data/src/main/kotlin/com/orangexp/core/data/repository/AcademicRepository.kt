@@ -93,6 +93,7 @@ internal class OfflineAcademicRepository @Inject constructor(
     private val configRepository: ConfigRepository,
     private val engine: OrangeEngine,
     private val time: TimeSource,
+    private val changes: DataChangeNotifier,
     @Dispatcher(OxDispatchers.Default) private val dispatcher: CoroutineDispatcher,
 ) : AcademicRepository {
 
@@ -333,6 +334,7 @@ internal class OfflineAcademicRepository @Inject constructor(
         }
         studyDao.replacePlan(today, plan, forecasts)
         keyValues.put(KeyValueEntity(StorageKeys.PLAN_GENERATED_FOR_DAY, today.toString()))
+        changes.notifyChanged()
     }
 
     private suspend fun seedDefaultStudyWindowsIfEmpty() {

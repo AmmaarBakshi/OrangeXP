@@ -70,6 +70,7 @@ dependencies {
     implementation(projects.feature.history)
     implementation(projects.feature.academics)
     implementation(projects.feature.settings)
+    implementation(projects.feature.widgets)
 
     implementation(projects.core.common)
     implementation(projects.core.data)

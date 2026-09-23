@@ -83,6 +83,7 @@ internal class OfflineDayRepository @Inject constructor(
     private val configRepository: ConfigRepository,
     private val engine: OrangeEngine,
     private val time: TimeSource,
+    private val changes: DataChangeNotifier,
     @Dispatcher(OxDispatchers.Default) private val dispatcher: CoroutineDispatcher,
 ) : DayRepository {
 
@@ -136,6 +137,7 @@ internal class OfflineDayRepository @Inject constructor(
         }
         val evaluation = engine.evaluateDay(DayInput(day, measurements), config)
         dayRecordDao.replaceDay(evaluation.toSnapshot(nowMs, engine.version))
+        changes.notifyChanged()
         evaluation
     }
 
