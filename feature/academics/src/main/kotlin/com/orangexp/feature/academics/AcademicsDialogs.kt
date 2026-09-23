@@ -63,9 +63,9 @@ internal fun FormDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onConfirm, enabled = confirmEnabled) { Text(stringResource(R.string.dialog_save)) }
+            TextButton(onClick = onConfirm, enabled = confirmEnabled) { Text(stringResource(R.string.academics_dialog_save)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.dialog_cancel)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.academics_dialog_cancel)) } },
     )
 }
 
@@ -114,7 +114,7 @@ internal fun SubjectDialog(
                     pickingDate = false
                 }) { Text(stringResource(R.string.dialog_ok)) }
             },
-            dismissButton = { TextButton(onClick = { pickingDate = false }) { Text(stringResource(R.string.dialog_cancel)) } },
+            dismissButton = { TextButton(onClick = { pickingDate = false }) { Text(stringResource(R.string.academics_dialog_cancel)) } },
         ) { DatePicker(state) }
     }
 }
@@ -231,7 +231,7 @@ private fun TimePickerDialog(initialMinute: Int, onConfirm: (Int) -> Unit, onDis
         onDismissRequest = onDismiss,
         text = { TimePicker(state) },
         confirmButton = { TextButton(onClick = { onConfirm(state.hour * 60 + state.minute) }) { Text(stringResource(R.string.dialog_ok)) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.dialog_cancel)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.academics_dialog_cancel)) } },
     )
 }
 

@@ -7,9 +7,9 @@
 
     <string name="plan_forecast">Forecast</string>
     <string name="plan_upcoming">Next two weeks</string>
-    <string name="plan_empty">No study planned. Add subjects with topics, and study windows below the timetable.</string>
+    <string name="academics_plan_empty">No study planned. Add subjects with topics, and study windows below the timetable.</string>
     <string name="plan_item">%1$s · %2$s</string>
-    <string name="plan_part">part %1$d/%2$d</string>
+    <string name="academics_plan_part">part %1$d/%2$d</string>
     <string name="status_complete">Complete</string>
     <string name="status_on_track">On track</string>
     <string name="status_at_risk">At risk</string>
@@ -37,8 +37,8 @@
     <string name="study_windows_hint">The scheduler plans study only inside these windows, minus classes and travel.</string>
     <string name="study_windows_add">Add study window</string>
 
-    <string name="dialog_save">Save</string>
-    <string name="dialog_cancel">Cancel</string>
+    <string name="academics_dialog_save">Save</string>
+    <string name="academics_dialog_cancel">Cancel</string>
     <string name="dialog_ok">OK</string>
     <string name="field_name">Name</string>
     <string name="field_title">Title</string>

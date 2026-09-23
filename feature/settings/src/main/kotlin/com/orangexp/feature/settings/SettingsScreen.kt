@@ -434,10 +434,10 @@ private fun NumberDialog(request: EditRequest, onDismiss: () -> Unit) {
         },
         confirmButton = {
             if (request.inputs.isNotEmpty()) {
-                TextButton(enabled = valid, onClick = { request.onConfirm(parsed); onDismiss() }) { Text(stringResource(R.string.dialog_save)) }
+                TextButton(enabled = valid, onClick = { request.onConfirm(parsed); onDismiss() }) { Text(stringResource(R.string.settings_dialog_save)) }
             }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.dialog_cancel)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.settings_dialog_cancel)) } },
     )
 }
 
@@ -453,8 +453,8 @@ private fun ImportDialog(onImport: (String) -> Unit, onDismiss: () -> Unit) {
                 OutlinedTextField(json, { json = it }, modifier = Modifier.fillMaxWidth().heightIn(min = 160.dp))
             }
         },
-        confirmButton = { TextButton(enabled = json.isNotBlank(), onClick = { onImport(json) }) { Text(stringResource(R.string.dialog_save)) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.dialog_cancel)) } },
+        confirmButton = { TextButton(enabled = json.isNotBlank(), onClick = { onImport(json) }) { Text(stringResource(R.string.settings_dialog_save)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.settings_dialog_cancel)) } },
     )
 }
 

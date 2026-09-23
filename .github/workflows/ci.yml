@@ -47,6 +47,12 @@ jobs:
       - name: Install cargo-ndk
         run: cargo install cargo-ndk --locked
       - uses: gradle/actions/setup-gradle@v4
+      - name: No duplicate string resource names across modules
+        # Android merges all modules' resources into one namespace; a duplicate
+        # name silently replaces another module's string.
+        run: |
+          dupes=$(grep -ho 'name="[a-z_0-9]*"' */*/src/main/res/values/strings.xml app/src/main/res/values/strings.xml | sort | uniq -d)
+          if [ -n "$dupes" ]; then echo "Duplicate string names: $dupes"; exit 1; fi
       - name: Unit tests
         env:
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}

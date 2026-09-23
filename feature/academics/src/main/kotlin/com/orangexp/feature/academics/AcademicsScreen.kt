@@ -126,7 +126,7 @@ private fun LazyListScope.planTab(state: AcademicsUiState) {
     }
     item { SectionLabel(stringResource(R.string.plan_upcoming)) }
     if (state.planDays.isEmpty()) {
-        item { EmptyState(stringResource(R.string.tab_plan), stringResource(R.string.plan_empty)) }
+        item { EmptyState(stringResource(R.string.tab_plan), stringResource(R.string.academics_plan_empty)) }
     }
     items(state.planDays, key = { it.day }) { day ->
         OxCard {
@@ -144,7 +144,7 @@ private fun LazyListScope.planTab(state: AcademicsUiState) {
                     Column(Modifier.weight(1f)) {
                         Text(item.topicTitle, style = MaterialTheme.typography.bodyLarge)
                         Text(
-                            stringResource(R.string.plan_item, item.subjectName, stringResource(R.string.plan_part, item.partIndex, item.partCount)),
+                            stringResource(R.string.plan_item, item.subjectName, stringResource(R.string.academics_plan_part, item.partIndex, item.partCount)),
                             style = MaterialTheme.typography.bodySmall,
                             color = OxTheme.colors.subtle,
                         )

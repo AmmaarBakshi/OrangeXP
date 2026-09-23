@@ -75,6 +75,6 @@
     <string name="unit_percent">%</string>
     <string name="unit_each">item</string>
 
-    <string name="dialog_save">Save</string>
-    <string name="dialog_cancel">Cancel</string>
+    <string name="settings_dialog_save">Save</string>
+    <string name="settings_dialog_cancel">Cancel</string>
 </resources>
