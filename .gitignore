@@ -1,0 +1,31 @@
+# Gradle / Android
+.gradle/
+.kotlin/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.hprof
+
+# Signing material must never be committed
+*.jks
+*.keystore
+keystore.properties
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.fleet/
+
+# Rust
+orangexp-core/target/
+
+# OS
+.DS_Store
+Thumbs.db
