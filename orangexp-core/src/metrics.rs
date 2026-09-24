@@ -14,6 +14,9 @@ pub mod keys {
     pub const AWAKE_MINUTES: &str = "awake.minutes";
     pub const STEPS: &str = "walking.steps";
     pub const WALKING_METERS: &str = "walking.meters";
+    pub const WALKING_MINUTES: &str = "walking.minutes";
+    pub const VEHICLE_MINUTES: &str = "travel.vehicle_minutes";
+    pub const VEHICLE_METERS: &str = "travel.vehicle_meters";
     pub const ACTIVE_MINUTES: &str = "activity.active_minutes";
     pub const STUDY_MINUTES: &str = "study.minutes";
     pub const SYLLABUS_COMPLETED_MINUTES: &str = "syllabus.completed_minutes";
@@ -94,6 +97,27 @@ pub fn catalog() -> Vec<MetricDefinition> {
             keys::WALKING_METERS,
             "Walking distance",
             C::Walking,
+            U::Meters,
+            Sum,
+        ),
+        def(
+            keys::WALKING_MINUTES,
+            "Walking time",
+            C::Walking,
+            U::Minutes,
+            Sum,
+        ),
+        def(
+            keys::VEHICLE_MINUTES,
+            "Time in vehicles",
+            C::Travel,
+            U::Minutes,
+            Sum,
+        ),
+        def(
+            keys::VEHICLE_METERS,
+            "Distance by vehicle",
+            C::Travel,
             U::Meters,
             Sum,
         ),
@@ -180,6 +204,36 @@ pub fn find(key: &str) -> Option<MetricDefinition> {
 mod tests {
     use super::*;
     use std::collections::HashSet;
+
+    #[test]
+    fn every_key_is_in_the_catalog() {
+        use keys::*;
+        let all = [
+            SLEEP_MINUTES,
+            AWAKE_MINUTES,
+            STEPS,
+            WALKING_METERS,
+            WALKING_MINUTES,
+            VEHICLE_MINUTES,
+            VEHICLE_METERS,
+            ACTIVE_MINUTES,
+            STUDY_MINUTES,
+            SYLLABUS_COMPLETED_MINUTES,
+            TOPICS_COMPLETED,
+            CLASSES_ATTENDED,
+            CLASSES_SCHEDULED,
+            ATTENDANCE_PERCENT,
+            SCHEDULE_ADHERENCE_PERCENT,
+            ON_TIME_DEPARTURES,
+            TASKS_COMPLETED,
+            SCREEN_MINUTES,
+            UNLOCKS,
+        ];
+        for key in all {
+            assert!(find(key).is_some(), "{key} missing from catalog");
+        }
+        assert_eq!(catalog().len(), all.len());
+    }
 
     #[test]
     fn keys_are_unique() {

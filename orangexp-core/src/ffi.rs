@@ -5,10 +5,12 @@
 //! platform-independent modules and is tested there.
 
 use crate::adherence::{self, AdherenceResult, WorkBlock};
+use crate::competitions::{self, Competition, CompetitionConfig, CompetitionPlan, TeammateStats};
 use crate::config::{ConfigIssue, EngineConfig};
 use crate::daily::{self, DayEvaluation, DayInput, HistoryEvaluation, HistoryInput};
 use crate::error::EngineError;
 use crate::metrics::{self, MetricDefinition};
+use crate::movement::{self, MovementConfig, MovementInput, MovementSummary};
 use crate::sleep::{
     self, DeviceEvent, SleepAnalysis, SleepConfig, SleepDayReport, SleepDaySummary,
 };
@@ -135,4 +137,27 @@ pub fn compute_adherence(planned: Vec<WorkBlock>, actual: Vec<WorkBlock>) -> Adh
 #[uniffi::export]
 pub fn weekday_of_epoch_day(day: EpochDay) -> Weekday {
     crate::time::weekday_of(day)
+}
+
+#[uniffi::export]
+pub fn analyze_movement(input: MovementInput, config: MovementConfig) -> MovementSummary {
+    movement::analyze(&input, &config)
+}
+
+#[uniffi::export]
+pub fn plan_competitions(
+    competitions: Vec<Competition>,
+    today: EpochDay,
+    config: CompetitionConfig,
+) -> CompetitionPlan {
+    competitions::plan(&competitions, today, &config)
+}
+
+#[uniffi::export]
+pub fn rank_teammates(
+    competitions: Vec<Competition>,
+    today: EpochDay,
+    config: CompetitionConfig,
+) -> Vec<TeammateStats> {
+    competitions::rank_teammates(&competitions, today, &config)
 }

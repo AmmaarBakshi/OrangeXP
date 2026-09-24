@@ -9,9 +9,11 @@ use std::collections::HashSet;
 use serde::{Deserialize, Serialize};
 
 use crate::category::Category;
+use crate::competitions::CompetitionConfig;
 use crate::error::EngineError;
 use crate::heatmap::{HeatmapConfig, HeatmapScale};
 use crate::metrics::keys;
+use crate::movement::MovementConfig;
 use crate::scoring::{CurvePoint, CurveStep, ScoreCurve, ScoringRule};
 use crate::sleep::SleepConfig;
 use crate::state::{StateRule, ThresholdDirection};
@@ -33,6 +35,8 @@ pub struct EngineConfig {
     pub heatmap: HeatmapConfig,
     pub travel: TravelConfig,
     pub study: StudyConfig,
+    pub movement: MovementConfig,
+    pub competitions: CompetitionConfig,
     pub stride_length_meters: f64,
 }
 
@@ -47,6 +51,8 @@ impl Default for EngineConfig {
             heatmap: HeatmapConfig::default(),
             travel: TravelConfig::default(),
             study: StudyConfig::default(),
+            movement: MovementConfig::default(),
+            competitions: CompetitionConfig::default(),
             stride_length_meters: 0.75,
         }
     }
@@ -395,6 +401,33 @@ impl EngineConfig {
                 "study.min_block_minutes".into(),
                 "must not exceed chunk_minutes",
             );
+        }
+        let m = &self.movement;
+        if !(m.max_walking_speed_kmh > 0.0 && m.max_walking_speed_kmh < m.vehicle_speed_kmh) {
+            issue(
+                "movement.max_walking_speed_kmh".into(),
+                "must be positive and below vehicle_speed_kmh",
+            );
+        }
+        if !(m.max_fix_accuracy_m > 0.0 && m.min_walking_cadence_spm > 0.0) {
+            issue(
+                "movement".into(),
+                "accuracy and cadence limits must be positive",
+            );
+        }
+        let c = &self.competitions;
+        if !(c.weekday_hours >= 0.0
+            && c.weekend_hours >= 0.0
+            && c.weekday_hours <= 24.0
+            && c.weekend_hours <= 24.0)
+        {
+            issue(
+                "competitions.hours".into(),
+                "daily hours must be within 0..=24",
+            );
+        }
+        if c.max_concurrent == 0 {
+            issue("competitions.max_concurrent".into(), "must be at least 1");
         }
         if !(0.3..=2.0).contains(&self.stride_length_meters) {
             issue("stride_length_meters".into(), "must be within 0.3..=2.0");

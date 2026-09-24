@@ -15,6 +15,8 @@
 //! | [`timetable`]   | class conflicts and free study capacity                 |
 //! | [`travel`]      | leave-home / start-preparing times                      |
 //! | [`syllabus`]    | deadline-aware study scheduling                         |
+//! | [`movement`]    | walking vs. vehicle from GPS, step cadence and hints    |
+//! | [`competitions`]| competition capacity planning and teammate ranking      |
 //! | [`adherence`]   | planned vs. actual work                                 |
 //!
 //! The crate knows nothing about Android. It never reads clocks, time zones,
@@ -23,6 +25,7 @@
 
 pub mod adherence;
 pub mod category;
+pub mod competitions;
 pub mod config;
 pub mod daily;
 pub mod error;
@@ -30,6 +33,7 @@ pub mod heatmap;
 pub mod history;
 mod interval;
 pub mod metrics;
+pub mod movement;
 pub mod normalization;
 pub mod scoring;
 pub mod sleep;
