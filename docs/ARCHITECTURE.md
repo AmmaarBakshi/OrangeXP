@@ -32,7 +32,8 @@ core/
   designsystem/           orange theme, typography, counters, heatmap, cards, formatters
   ui/                     shared domain→UI mappings (state tones, labels, breakdown list)
 feature/
-  today/ history/ academics/ settings/
+  today/ history/ academics/ competitions/ settings/
+  widgets/                Glance home-screen widgets, refreshed through DataChangeListener
 ```
 
 Dependency direction: `app → feature:* → core:ui → core:data → core:{database, sensing, engine, common}`.
@@ -56,6 +57,8 @@ Features never depend on each other. `core:designsystem` knows nothing about the
 | `travel` | leave/prepare times with safety buffer and percentile of real travel history |
 | `syllabus` | slack-aware greedy scheduler with deterministic tie-breaks, forecasts, shortfalls |
 | `adherence` | planned vs. actual work, credit capped per plan item |
+| `movement` | walking vs. vehicle from GPS fixes, step cadence and activity hints; spike removal, median speed, segment smoothing |
+| `competitions` | competition capacity (exact interval-demand feasibility + concurrency limit, exhaustive up to 16 candidates) and teammate ranking |
 | `config` | complete user configuration, defaults, validation, JSON with forward compatibility |
 | `ffi` | UniFFI exports (feature `ffi` only) |
 

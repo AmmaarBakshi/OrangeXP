@@ -20,8 +20,9 @@ android {
 
     defaultConfig {
         applicationId = "com.orangexp.app"
-        versionCode = 1
-        versionName = "0.1.0"
+        // CI passes these from the release tag; local builds use the defaults.
+        versionCode = providers.gradleProperty("orangexp.versionCode").map(String::toInt).getOrElse(1)
+        versionName = providers.gradleProperty("orangexp.versionName").getOrElse("0.1.0")
         vectorDrawables.useSupportLibrary = true
 
         // Package exactly the ABIs the Rust engine is built for. JNA ships more,
@@ -35,7 +36,8 @@ android {
         val storeFile = signingValue("storeFile", "ORANGEXP_KEYSTORE")
         if (storeFile != null) {
             create("release") {
-                this.storeFile = file(storeFile)
+                // Relative paths resolve from the repository root; CI passes an absolute path.
+                this.storeFile = rootProject.file(storeFile)
                 storePassword = signingValue("storePassword", "ORANGEXP_KEYSTORE_PASSWORD")
                 keyAlias = signingValue("keyAlias", "ORANGEXP_KEY_ALIAS")
                 keyPassword = signingValue("keyPassword", "ORANGEXP_KEY_PASSWORD")
@@ -69,6 +71,7 @@ dependencies {
     implementation(projects.feature.today)
     implementation(projects.feature.history)
     implementation(projects.feature.academics)
+    implementation(projects.feature.competitions)
     implementation(projects.feature.settings)
     implementation(projects.feature.widgets)
 

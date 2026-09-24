@@ -18,6 +18,16 @@ SLEEP 6h 21m    AWAKE 14h 32m
 WALKED 4.7 km   SYLLABUS 3 / 4
 ```
 
+## Download
+
+Get the latest APK from **[Releases](https://github.com/AmmaarBakshi/OrangeXP/releases/latest)**:
+
+1. Download `OrangeXP-x.y.z.apk` on your phone (Android 9 or newer).
+2. Open it and allow installing from your browser or file manager when Android asks.
+3. New versions install over the old one and keep your data.
+
+Each release also has a `.sha256` file to verify the download.
+
 ## Features
 
 | Area | What it does |
@@ -33,6 +43,10 @@ WALKED 4.7 km   SYLLABUS 3 / 4
 | **Contribution heatmap** | GitHub-style yearly graph in orange, with day drill-down. |
 | **Lifetime counters** | Lifetime, study, physical, sleep and discipline XP, all plain historical sums. |
 | **Streaks** | Historical information only. Streaks never change points. |
+| **Walking vs. vehicle** | Optional GPS mode: fixes are recorded only while Android reports movement and paired with step-counter readings. Step cadence proves walking; moving faster than *your* walking speed without steps is a vehicle; median speeds and spike removal ignore bad fixes; short segments merge into their neighbours, so a traffic stop doesn't split a bus ride. Steps registered in vehicles are removed. |
+| **Competitions** | Track upcoming competitions with prep hours, dates, importance and team. An exact capacity check (interval demand vs. available hours) plus a concurrency limit tells you how many you can take on at once and which ones fit. |
+| **Teammates** | Every result earns your teammates points (win 100, podium 60, finalist 30, participated 10), halving each year, so the ranking favours people you've recently done well with. |
+| **Widgets** | Score, streak calendar, timetable and statistics widgets for the home screen. |
 
 ## Architecture in one picture
 
@@ -87,6 +101,15 @@ automatically. There are no manual steps and no generated code in the repository
 Release builds are minified and signed from `keystore.properties` (not committed) or the
 `ORANGEXP_KEYSTORE*` environment variables.
 
+### Publishing a release
+
+1. Once, add the repository secrets `ORANGEXP_KEYSTORE_BASE64`, `ORANGEXP_KEYSTORE_PASSWORD`,
+   `ORANGEXP_KEY_ALIAS` and `ORANGEXP_KEY_PASSWORD` (Settings → Secrets and variables → Actions).
+2. Tag and push: `git tag v0.2.0 && git push origin v0.2.0`.
+3. The *Release* workflow builds the signed APK and publishes it with release notes.
+
+Always sign with the same key; Android refuses updates signed with a different one.
+
 ## Permissions and privacy
 
 | Permission | Why |
@@ -94,8 +117,11 @@ Release builds are minified and signed from `keystore.properties` (not committed
 | Usage access | Screen, unlock and foreground-app *history*, used for sleep and awake estimation. Read from the system's own record; no background service. |
 | Activity recognition | Reads the hardware step counter. |
 | Notifications | Preparation and departure reminders. |
+| Location, including "Allow all the time" (optional) | Only if you turn on walking detection: GPS while you're moving, so walking can be told apart from riding. Stays on the device. |
 
 All data stays on the device. The app does not request the `INTERNET` permission, has no account and no analytics.
+
+Keep your own data out of git: anything in `personal/` (for example exported syllabus or timetable files, database backups, signing keys) and any `*.db` file is ignored.
 Cloud backup is disabled for personal data; direct device-to-device transfer is allowed.
 
 ## Battery

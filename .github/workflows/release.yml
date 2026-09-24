@@ -1,0 +1,79 @@
+name: Release
+
+# Push a tag like v0.2.0 to build a signed APK and publish it as a GitHub Release:
+#   git tag v0.2.0 && git push origin v0.2.0
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check signing secrets
+        env:
+          KEYSTORE: ${{ secrets.ORANGEXP_KEYSTORE_BASE64 }}
+          PASSWORD: ${{ secrets.ORANGEXP_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE" ] || [ -z "$PASSWORD" ]; then
+            echo "::error::Signing secrets are missing. Add ORANGEXP_KEYSTORE_BASE64, ORANGEXP_KEYSTORE_PASSWORD, ORANGEXP_KEY_ALIAS and ORANGEXP_KEY_PASSWORD in the repository settings."
+            exit 1
+          fi
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: orangexp-core
+      - name: Install cargo-ndk
+        run: cargo install cargo-ndk --locked
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Version from tag
+        id: version
+        run: echo "name=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build signed APK
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
+          ORANGEXP_KEYSTORE_PASSWORD: ${{ secrets.ORANGEXP_KEYSTORE_PASSWORD }}
+          ORANGEXP_KEY_ALIAS: ${{ secrets.ORANGEXP_KEY_ALIAS }}
+          ORANGEXP_KEY_PASSWORD: ${{ secrets.ORANGEXP_KEY_PASSWORD }}
+        run: |
+          echo "${{ secrets.ORANGEXP_KEYSTORE_BASE64 }}" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          export ORANGEXP_KEYSTORE="$RUNNER_TEMP/release.jks"
+          ./gradlew assembleRelease \
+            -Porangexp.versionName=${{ steps.version.outputs.name }} \
+            -Porangexp.versionCode=${{ github.run_number }}
+          rm "$RUNNER_TEMP/release.jks"
+
+      - name: Name and checksum the APK
+        run: |
+          apk="OrangeXP-${{ steps.version.outputs.name }}.apk"
+          mv app/build/outputs/apk/release/app-release.apk "$apk"
+          sha256sum "$apk" > "$apk.sha256"
+          echo "APK=$apk" >> "$GITHUB_ENV"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.APK }}
+            ${{ env.APK }}.sha256
+          generate_release_notes: true
+          body: |
+            ## Install
+            1. Download **${{ env.APK }}** below on your Android phone (Android 9 or newer).
+            2. Open it and allow installing from your browser or file manager when asked.
+            3. Updates install over the previous version and keep your data.
+
+            Verify the download (optional): `sha256sum -c ${{ env.APK }}.sha256`
