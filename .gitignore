@@ -29,3 +29,11 @@ orangexp-core/target/
 # OS
 .DS_Store
 Thumbs.db
+
+# Personal data: your syllabus, timetable, database exports and import scripts.
+# Keep everything personal in personal/ so it can never be committed.
+personal/
+*.db
+*.db-wal
+*.db-shm
+orangexp-config*.json

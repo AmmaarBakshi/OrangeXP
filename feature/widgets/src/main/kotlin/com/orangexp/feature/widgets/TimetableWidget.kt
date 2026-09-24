@@ -45,9 +45,9 @@ class TimetableWidget : GlanceAppWidget() {
             isToday = true,
             nowMinute = 10 * 60 + 40,
             classes = listOf(
-                ClassRow(9 * 60 + 15, 10 * 60 + 15, "Statistical Maths", "LH-B301"),
-                ClassRow(10 * 60 + 15, 12 * 60 + 15, "Database Management System Lab", "CS LAB-B304"),
-                ClassRow(13 * 60 + 15, 14 * 60 + 15, "Electrical Machine", "LH-B301"),
+                ClassRow(9 * 60 + 15, 10 * 60 + 15, "Linear Algebra", "Room 101"),
+                ClassRow(10 * 60 + 15, 12 * 60 + 15, "Physics Lab", "Lab 2"),
+                ClassRow(13 * 60 + 15, 14 * 60 + 15, "Signals and Systems", "Room 204"),
             ),
             leaveMinute = 8 * 60,
         )
