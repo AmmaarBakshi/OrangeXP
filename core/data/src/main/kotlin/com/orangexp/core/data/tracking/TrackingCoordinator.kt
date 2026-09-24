@@ -6,6 +6,7 @@ import com.orangexp.core.common.time.nowMs
 import com.orangexp.core.common.time.today
 import com.orangexp.core.data.repository.AcademicRepository
 import com.orangexp.core.data.repository.DayRepository
+import com.orangexp.core.data.repository.MovementRepository
 import com.orangexp.core.data.repository.StorageKeys
 import com.orangexp.core.database.dao.DeviceEventDao
 import com.orangexp.core.database.dao.KeyValueDao
@@ -44,6 +45,7 @@ internal class DefaultTrackingCoordinator @Inject constructor(
     private val keyValues: KeyValueDao,
     private val dayRepository: DayRepository,
     private val academicRepository: AcademicRepository,
+    private val movementRepository: MovementRepository,
     private val time: TimeSource,
 ) : TrackingCoordinator {
 
@@ -55,6 +57,7 @@ internal class DefaultTrackingCoordinator @Inject constructor(
 
         ingestDeviceEvents(now)
         ingestSteps(now, today)
+        runCatching { movementRepository.ensureTracking() }
 
         if (keyValues.get(StorageKeys.PLAN_GENERATED_FOR_DAY)?.toIntOrNull() != today) {
             academicRepository.regeneratePlan()

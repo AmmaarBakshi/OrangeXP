@@ -21,4 +21,7 @@
     <string name="breakdown_capped">capped</string>
     <string name="breakdown_empty_title">Nothing measured yet</string>
     <string name="breakdown_empty_body">Points appear as the day is measured.</string>
+    <string name="form_save">Save</string>
+    <string name="form_cancel">Cancel</string>
+    <string name="form_ok">OK</string>
 </resources>

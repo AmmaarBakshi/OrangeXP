@@ -1,4 +1,5 @@
 import androidx.room.gradle.RoomExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.google.devtools.ksp.gradle.KspExtension
 import com.orangexp.buildlogic.libs
 import com.orangexp.buildlogic.library
@@ -19,6 +20,8 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             // Exported schemas are committed and used to verify migrations.
             schemaDirectory("$projectDir/schemas")
         }
+        // Migration tests build old databases from the exported schemas.
+        extensions.findByType(LibraryExtension::class.java)?.sourceSets?.getByName("test")?.resources?.srcDir("$projectDir/schemas")
         dependencies {
             add("implementation", libs.library("androidx-room-runtime"))
             add("implementation", libs.library("androidx-room-ktx"))

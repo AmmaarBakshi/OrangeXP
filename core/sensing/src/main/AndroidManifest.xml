@@ -11,6 +11,16 @@
     <!-- Hardware step counter (runtime permission on Android 10+). -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <!-- Optional walking detection: GPS fixes are recorded only while Android reports
+         movement, so walking can be told apart from riding a vehicle. Off by default. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
     <uses-feature
         android:name="android.hardware.sensor.stepcounter"
         android:required="false" />
@@ -22,4 +32,13 @@
             <category android:name="android.intent.category.HOME" />
         </intent>
     </queries>
+
+    <application>
+        <receiver
+            android:name=".movement.ActivityTransitionReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".movement.LocationUpdateReceiver"
+            android:exported="false" />
+    </application>
 </manifest>

@@ -16,6 +16,7 @@ androidxTestCore = "1.7.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 jna = "5.18.1"
+playServicesLocation = "21.3.0"
 junit4 = "4.13.2"
 robolectric = "4.16"
 turbine = "1.2.1"
@@ -50,7 +51,9 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }

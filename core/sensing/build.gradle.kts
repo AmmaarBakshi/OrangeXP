@@ -7,4 +7,6 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.engine)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.play.services.location)
+    implementation(libs.kotlinx.coroutines.play.services)
 }

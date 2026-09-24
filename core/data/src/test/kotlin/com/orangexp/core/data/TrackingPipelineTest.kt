@@ -6,20 +6,29 @@ import com.orangexp.core.common.time.TimeSource
 import com.orangexp.core.common.time.dayWindow
 import com.orangexp.core.data.model.AttendanceStatus
 import com.orangexp.core.data.model.TimetableEntry
+import com.orangexp.core.data.repository.CompetitionItem
 import com.orangexp.core.data.repository.DataChangeNotifier
+import com.orangexp.core.data.repository.OfflineCompetitionRepository
+import com.orangexp.core.data.repository.TeamMember
 import com.orangexp.core.data.repository.OfflineAcademicRepository
 import com.orangexp.core.data.repository.OfflineConfigRepository
 import com.orangexp.core.data.repository.OfflineDayRepository
+import com.orangexp.core.data.repository.OfflineMovementRepository
 import com.orangexp.core.data.repository.OfflineTravelRepository
 import com.orangexp.core.data.tracking.DefaultTrackingCoordinator
 import com.orangexp.core.database.OrangeXpDatabase
 import com.orangexp.core.engine.MetricKeys
 import com.orangexp.core.engine.UniffiOrangeEngine
+import com.orangexp.core.engine.ffi.CompetitionResult
+import com.orangexp.core.engine.ffi.CompetitionStatus
+import com.orangexp.core.engine.ffi.CompetitionVerdict
 import com.orangexp.core.engine.ffi.DeviceEvent
+import com.orangexp.core.engine.ffi.LocationFix
 import com.orangexp.core.engine.ffi.DeviceEventKind
 import com.orangexp.core.sensing.DeviceUsageSource
 import com.orangexp.core.sensing.PowerStateSource
 import com.orangexp.core.sensing.StepCounterSource
+import com.orangexp.core.sensing.movement.MovementTracker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -74,7 +83,17 @@ class TrackingPipelineTest {
         override fun isCharging() = false
     }
 
+    private val noTracker = object : MovementTracker {
+        override fun isSupported() = false
+        override fun missingPermissions() = emptyList<String>()
+        override suspend fun start() = Unit
+        override suspend fun stop() = Unit
+        override fun startLocationUpdates() = Unit
+        override fun stopLocationUpdates() = Unit
+    }
+
     private lateinit var db: OrangeXpDatabase
+    private lateinit var movement: OfflineMovementRepository
     private lateinit var days: OfflineDayRepository
     private lateinit var academics: OfflineAcademicRepository
     private lateinit var travel: OfflineTravelRepository
@@ -88,6 +107,7 @@ class TrackingPipelineTest {
         val engine = UniffiOrangeEngine()
         val dispatcher = Dispatchers.Unconfined
         val noChanges = DataChangeNotifier(emptySet())
+        movement = OfflineMovementRepository(db.movementDao(), db.keyValueDao(), noTracker, engine, clock)
         val config = OfflineConfigRepository(db.keyValueDao(), engine, dispatcher)
         academics = OfflineAcademicRepository(
             db.timetableDao(), db.syllabusDao(), db.studyDao(), db.attendanceDao(), db.keyValueDao(),
@@ -95,12 +115,12 @@ class TrackingPipelineTest {
         )
         days = OfflineDayRepository(
             db.dayRecordDao(), db.deviceEventDao(), db.sleepDao(), db.stepsDao(), db.studyDao(), db.syllabusDao(),
-            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.keyValueDao(), config, engine, clock, noChanges,
-            dispatcher,
+            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.keyValueDao(), config, engine, movement, clock,
+            noChanges, dispatcher,
         )
         travel = OfflineTravelRepository(db.travelDao(), academics, config, engine, clock, dispatcher)
         coordinator = DefaultTrackingCoordinator(
-            usage, steps, power, db.deviceEventDao(), db.stepsDao(), db.keyValueDao(), days, academics, clock,
+            usage, steps, power, db.deviceEventDao(), db.stepsDao(), db.keyValueDao(), days, academics, movement, clock,
         )
     }
 
@@ -175,5 +195,56 @@ class TrackingPipelineTest {
         val replanned = academics.plan(day + 1, day + 30).first()
         assertEquals(day + 1, replanned.first().day)
         assertEquals(120, replanned.sumOf { it.minutes })
+    }
+
+    @Test
+    fun gpsMovementSeparatesWalkingFromVehicle() = runTest {
+        var t = midnight + 8 * hour
+        var lat = 19.0
+        var counter = 1_000L
+        suspend fun leg(kmh: Double, minutes: Int, stepsPerMinute: Int) {
+            repeat(minutes * 3) {
+                movement.onLocations(listOf(LocationFix(t, lat, 73.0, 8.0)), counter, t)
+                lat += kmh / 3.6 * 20 / 111_195.0
+                counter += stepsPerMinute / 3
+                t += 20_000
+            }
+        }
+        leg(4.5, minutes = 10, stepsPerMinute = 100) // walk to the bus stop
+        leg(25.0, minutes = 20, stepsPerMinute = 9) // bus: bumps register a few steps
+        leg(4.5, minutes = 5, stepsPerMinute = 100)
+        movement.onLocations(listOf(LocationFix(t, lat, 73.0, 8.0)), counter, t)
+        db.stepsDao().upsert(com.orangexp.core.database.model.DailyStepsEntity(day, counter - 1_000))
+
+        days.evaluate(day)
+        val metrics = assertNotNull(days.breakdown(day).first()).metrics
+        assertTrue(metrics.getValue(MetricKeys.WALKING_MINUTES) in 14.0..15.0, "${metrics[MetricKeys.WALKING_MINUTES]}")
+        assertTrue(metrics.getValue(MetricKeys.VEHICLE_MINUTES) in 19.0..21.0, "${metrics[MetricKeys.VEHICLE_MINUTES]}")
+        // Walking distance is measured (~1.1 km), not stride-estimated from bus-inflated steps.
+        assertTrue(metrics.getValue(MetricKeys.WALKING_METERS) in 1_000.0..1_250.0, "${metrics[MetricKeys.WALKING_METERS]}")
+        // Steps counted during the bus ride are removed.
+        assertTrue(metrics.getValue(MetricKeys.STEPS) < (counter - 1_000).toDouble())
+    }
+
+    @Test
+    fun competitionPlanAndTeammatesComeFromTheEngine() = runTest {
+        val repo = OfflineCompetitionRepository(
+            db.competitionDao(), OfflineConfigRepository(db.keyValueDao(), UniffiOrangeEngine(), Dispatchers.Unconfined),
+            UniffiOrangeEngine(), clock, Dispatchers.Unconfined,
+        )
+        val asha = repo.saveMember(TeamMember(name = "Asha"))
+        val bilal = repo.saveMember(TeamMember(name = "Bilal"))
+        val won = repo.save(CompetitionItem(name = "Hackathon", prepStartDay = day - 40, eventStartDay = day - 30, eventEndDay = day - 29, prepHours = 10.0), listOf(asha, bilal))
+        repo.setOutcome(won, CompetitionStatus.COMPLETED, CompetitionResult.WON)
+        repo.save(CompetitionItem(name = "Robotics", prepStartDay = day, eventStartDay = day + 14, eventEndDay = day + 15, prepHours = 12.0, importance = 5), listOf(asha))
+
+        val overview = repo.overview.first()
+        assertEquals(listOf("Asha", "Bilal"), overview.teammates.map { it.member.name })
+        val asha1 = overview.teammates.first().stats
+        // Only the completed hackathon counts; the upcoming one doesn't yet.
+        assertEquals(1u to 1u, asha1.competitions to asha1.wins)
+        val upcoming = overview.competitions.single { it.name == "Robotics" }
+        assertEquals(CompetitionVerdict.RECOMMENDED, overview.assessments.getValue(upcoming.id).verdict)
+        assertTrue(overview.plan.additionalCapacity >= 1u)
     }
 }

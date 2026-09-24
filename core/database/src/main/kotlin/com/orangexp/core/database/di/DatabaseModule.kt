@@ -28,4 +28,6 @@ object DatabaseModule {
     @Provides fun studyDao(db: OrangeXpDatabase) = db.studyDao()
     @Provides fun attendanceDao(db: OrangeXpDatabase) = db.attendanceDao()
     @Provides fun travelDao(db: OrangeXpDatabase) = db.travelDao()
+    @Provides fun movementDao(db: OrangeXpDatabase) = db.movementDao()
+    @Provides fun competitionDao(db: OrangeXpDatabase) = db.competitionDao()
 }

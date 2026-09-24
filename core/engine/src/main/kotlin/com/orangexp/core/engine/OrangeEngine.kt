@@ -2,6 +2,9 @@ package com.orangexp.core.engine
 
 import com.orangexp.core.engine.ffi.AdherenceResult
 import com.orangexp.core.engine.ffi.CapacityInput
+import com.orangexp.core.engine.ffi.Competition
+import com.orangexp.core.engine.ffi.CompetitionConfig
+import com.orangexp.core.engine.ffi.CompetitionPlan
 import com.orangexp.core.engine.ffi.ConfigIssue
 import com.orangexp.core.engine.ffi.DayCapacity
 import com.orangexp.core.engine.ffi.DayEvaluation
@@ -12,10 +15,14 @@ import com.orangexp.core.engine.ffi.EngineConfig
 import com.orangexp.core.engine.ffi.HistoryEvaluation
 import com.orangexp.core.engine.ffi.HistoryInput
 import com.orangexp.core.engine.ffi.MetricDefinition
+import com.orangexp.core.engine.ffi.MovementConfig
+import com.orangexp.core.engine.ffi.MovementInput
+import com.orangexp.core.engine.ffi.MovementSummary
 import com.orangexp.core.engine.ffi.ScheduleInput
 import com.orangexp.core.engine.ffi.SleepConfig
 import com.orangexp.core.engine.ffi.SleepDayReport
 import com.orangexp.core.engine.ffi.StudySchedule
+import com.orangexp.core.engine.ffi.TeammateStats
 import com.orangexp.core.engine.ffi.TimetableConflict
 import com.orangexp.core.engine.ffi.TimetableSlot
 import com.orangexp.core.engine.ffi.TravelConfig
@@ -73,4 +80,10 @@ interface OrangeEngine {
     fun generateStudySchedule(input: ScheduleInput): StudySchedule
 
     fun adherence(planned: List<WorkBlock>, actual: List<WorkBlock>): AdherenceResult
+
+    fun analyzeMovement(input: MovementInput, config: MovementConfig): MovementSummary
+
+    fun planCompetitions(competitions: List<Competition>, today: Int, config: CompetitionConfig): CompetitionPlan
+
+    fun rankTeammates(competitions: List<Competition>, today: Int, config: CompetitionConfig): List<TeammateStats>
 }

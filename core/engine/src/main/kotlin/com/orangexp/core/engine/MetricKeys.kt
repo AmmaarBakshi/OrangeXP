@@ -9,6 +9,9 @@ object MetricKeys {
     const val AWAKE_MINUTES = "awake.minutes"
     const val STEPS = "walking.steps"
     const val WALKING_METERS = "walking.meters"
+    const val WALKING_MINUTES = "walking.minutes"
+    const val VEHICLE_MINUTES = "travel.vehicle_minutes"
+    const val VEHICLE_METERS = "travel.vehicle_meters"
     const val ACTIVE_MINUTES = "activity.active_minutes"
     const val STUDY_MINUTES = "study.minutes"
     const val SYLLABUS_COMPLETED_MINUTES = "syllabus.completed_minutes"
@@ -23,7 +26,8 @@ object MetricKeys {
     const val UNLOCKS = "phone.unlocks"
 
     val ALL = listOf(
-        SLEEP_MINUTES, AWAKE_MINUTES, STEPS, WALKING_METERS, ACTIVE_MINUTES, STUDY_MINUTES,
+        SLEEP_MINUTES, AWAKE_MINUTES, STEPS, WALKING_METERS, WALKING_MINUTES, VEHICLE_MINUTES, VEHICLE_METERS,
+        ACTIVE_MINUTES, STUDY_MINUTES,
         SYLLABUS_COMPLETED_MINUTES, TOPICS_COMPLETED, CLASSES_ATTENDED, CLASSES_SCHEDULED,
         ATTENDANCE_PERCENT, SCHEDULE_ADHERENCE_PERCENT, ON_TIME_DEPARTURES, TASKS_COMPLETED,
         SCREEN_MINUTES, UNLOCKS,

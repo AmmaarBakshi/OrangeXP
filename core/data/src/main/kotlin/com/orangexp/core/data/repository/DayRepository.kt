@@ -82,6 +82,7 @@ internal class OfflineDayRepository @Inject constructor(
     private val keyValues: KeyValueDao,
     private val configRepository: ConfigRepository,
     private val engine: OrangeEngine,
+    private val movement: MovementRepository,
     private val time: TimeSource,
     private val changes: DataChangeNotifier,
     @Dispatcher(OxDispatchers.Default) private val dispatcher: CoroutineDispatcher,
@@ -130,7 +131,7 @@ internal class OfflineDayRepository @Inject constructor(
 
         val measurements = buildList {
             addAll(sleepAndPhoneMeasurements(window, nowMs, utcOffsetMinutes(now, zone), config, isToday = day == time.today()))
-            stepsDao.get(day)?.let { add(Measurement(MetricKeys.STEPS, it.steps.toDouble())) }
+            addAll(walkingMeasurements(window, stepsDao.get(day)?.steps, config))
             addAll(studyMeasurements(window, nowMs))
             addAll(attendanceMeasurements(day))
             addAll(travelMeasurements(day))
@@ -163,6 +164,25 @@ internal class OfflineDayRepository @Inject constructor(
             summary.longestAwakeMinutes?.let { add(Measurement(MetricKeys.AWAKE_MINUTES, it.toDouble())) }
             add(Measurement(MetricKeys.SCREEN_MINUTES, report.usage.screenMinutes.toDouble()))
             add(Measurement(MetricKeys.UNLOCKS, report.usage.unlocks.toDouble()))
+        }
+    }
+
+    /**
+     * Steps always come from the step counter. When GPS movement data exists,
+     * walking distance is measured instead of estimated from stride length, and
+     * steps the counter registered while riding a vehicle are removed.
+     */
+    private suspend fun walkingMeasurements(window: DayWindow, steps: Long?, config: EngineConfig): List<Measurement> {
+        val summary = movement.summarize(window, config.movement)
+        return buildList {
+            val walkedSteps = steps?.let { (it - (summary?.stepsInVehicle ?: 0)).coerceAtLeast(0) }
+            walkedSteps?.let { add(Measurement(MetricKeys.STEPS, it.toDouble())) }
+            if (summary != null) {
+                add(Measurement(MetricKeys.WALKING_METERS, summary.walkingMeters))
+                add(Measurement(MetricKeys.WALKING_MINUTES, summary.walkingMinutes.toDouble()))
+                add(Measurement(MetricKeys.VEHICLE_MINUTES, summary.vehicleMinutes.toDouble()))
+                add(Measurement(MetricKeys.VEHICLE_METERS, summary.vehicleMeters))
+            }
         }
     }
 
