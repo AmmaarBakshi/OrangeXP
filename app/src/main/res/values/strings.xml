@@ -4,5 +4,6 @@
     <string name="nav_today">Today</string>
     <string name="nav_history">History</string>
     <string name="nav_academics">Academics</string>
+    <string name="nav_compete">Compete</string>
     <string name="nav_settings">Settings</string>
 </resources>

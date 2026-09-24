@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="comp_competitions_title">Competitions</string>
+    <string name="comp_tab_upcoming">Upcoming</string>
+    <string name="comp_tab_past">Past</string>
+    <string name="comp_tab_team">Team</string>
+
+    <string name="comp_capacity_label">Competitions you can run at once</string>
+    <string name="comp_capacity_detail">%1$d active now · %2$s spare in the next 30 days · room for %3$d more</string>
+    <string name="comp_capacity_hint">Based on %1$s h per weekday and %2$s h per weekend day for competitions (change in Settings).</string>
+
+    <string name="comp_add_competition">Add competition</string>
+    <string name="comp_edit_competition">Edit competition</string>
+    <string name="comp_empty_upcoming">No upcoming competitions. Add one to see whether it fits.</string>
+    <string name="comp_empty_past">Finished competitions and their results appear here.</string>
+    <string name="comp_competition_dates">Prep from %1$s · event %2$s</string>
+    <string name="comp_competition_dates_range">Prep from %1$s · event %2$s–%3$s</string>
+    <string name="comp_competition_prep">%1$s h prep left · %2$s h available in its window</string>
+    <string name="comp_competition_importance">Importance %1$d/5</string>
+
+    <string name="comp_verdict_committed">Registered</string>
+    <string name="comp_verdict_overcommitted">Overcommitted</string>
+    <string name="comp_verdict_recommended">Fits · go for it</string>
+    <string name="comp_verdict_not_enough_time">Not enough time</string>
+    <string name="comp_verdict_too_many">Too many at once</string>
+    <string name="comp_verdict_inactive">Finished</string>
+
+    <string name="comp_action_register">Mark registered</string>
+    <string name="comp_action_result">Record result</string>
+    <string name="comp_action_edit">Edit</string>
+    <string name="comp_action_delete">Delete</string>
+
+    <string name="comp_result_won">Won</string>
+    <string name="comp_result_podium">Podium (2nd/3rd)</string>
+    <string name="comp_result_finalist">Finalist</string>
+    <string name="comp_result_participated">Participated</string>
+    <string name="comp_result_withdrawn">Withdrew</string>
+    <string name="comp_result_pending">Result not recorded</string>
+    <string name="comp_record_result_title">How did %1$s go?</string>
+
+    <string name="comp_field_name">Name</string>
+    <string name="comp_field_prep_start">Prep starts</string>
+    <string name="comp_field_event_start">Event starts</string>
+    <string name="comp_field_event_end">Event ends</string>
+    <string name="comp_field_prep_hours">Prep hours needed</string>
+    <string name="comp_field_importance">Importance: %1$d</string>
+    <string name="comp_field_registered">Already registered</string>
+    <string name="comp_field_team">Team</string>
+    <string name="comp_field_team_empty">Add teammates in the Team tab.</string>
+    <string name="comp_field_notes">Notes</string>
+
+    <string name="comp_team_hint">Ranked by recent results together: win 100, podium 60, finalist 30, participated 10 points, halving every year.</string>
+    <string name="comp_team_add">Add teammate</string>
+    <string name="comp_team_new">Not competed together yet</string>
+    <string name="comp_team_stats">%1$d events · %2$d wins · %3$d podiums · %4$d%% win rate</string>
+    <string name="comp_team_score">%1$s pts</string>
+    <string name="comp_team_empty">No teammates yet.</string>
+</resources>

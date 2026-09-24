@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation(projects.core.sensing)
+    implementation(libs.androidx.activity.compose)
 }

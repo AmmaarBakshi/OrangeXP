@@ -1,6 +1,10 @@
 package com.orangexp.feature.settings
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -128,6 +132,8 @@ private fun SettingsScreen(
             item { SleepCard(config, viewModel) { edit = it } }
             item { TravelCard(config, viewModel) { edit = it } }
             item { StudyCard(config, viewModel) { edit = it } }
+            if (viewModel.movementSupported) item { MovementCard(state, config, viewModel, openAppSettings) { edit = it } }
+            item { CompetitionCard(config, viewModel) { edit = it } }
             item { StreakCard(config, viewModel) { edit = it } }
         }
         item {
@@ -374,6 +380,95 @@ private fun StudyCard(config: EngineConfig, vm: SettingsViewModel, onEdit: (Edit
         ValueRow(labels[0], OxFormat.duration(values[0].toLong()))
         ValueRow(labels[1], OxFormat.duration(values[1].toLong()))
         ValueRow(labels[2], values[2].toString())
+    }
+}
+
+@Composable
+private fun MovementCard(
+    state: SettingsUiState,
+    config: EngineConfig,
+    vm: SettingsViewModel,
+    openAppSettings: () -> Unit,
+    onEdit: (EditRequest) -> Unit,
+) {
+    // Background location must be requested on its own, after foreground location is granted.
+    val background = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setMovementEnabled(true) }
+    val foreground = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
+        if (granted[Manifest.permission.ACCESS_FINE_LOCATION] == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            background.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        } else {
+            vm.setMovementEnabled(true)
+        }
+    }
+    val m = config.movement
+    val title = stringResource(R.string.section_movement)
+    val walkingLabel = stringResource(R.string.movement_walking_speed)
+    val vehicleLabel = stringResource(R.string.movement_vehicle_speed)
+    val speedHint = stringResource(R.string.movement_speed_hint)
+    val editSpeeds = {
+        onEdit(
+            EditRequest(
+                title,
+                listOf(NumberInput(walkingLabel, number(m.maxWalkingSpeedKmh)), NumberInput(vehicleLabel, number(m.vehicleSpeedKmh))),
+                hint = speedHint,
+            ) { v -> vm.updateMovement(v[0] ?: m.maxWalkingSpeedKmh, v[1] ?: m.vehicleSpeedKmh) },
+        )
+    }
+    OxCard {
+        SectionLabel(title)
+        ToggleRow(
+            title = stringResource(R.string.movement_toggle),
+            detail = stringResource(R.string.movement_detail),
+            checked = state.movementEnabled,
+            onCheckedChange = { on ->
+                if (on) {
+                    foreground.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACTIVITY_RECOGNITION,
+                        ),
+                    )
+                } else {
+                    vm.setMovementEnabled(false)
+                }
+            },
+            onClick = {},
+        )
+        if (state.movementEnabled && state.movementMissingPermissions.isNotEmpty()) {
+            Text(stringResource(R.string.movement_needs_permission), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
+            TextButton(onClick = openAppSettings) { Text(stringResource(R.string.perm_open)) }
+        }
+        ValueRow(walkingLabel, "${number(m.maxWalkingSpeedKmh)} km/h", editSpeeds)
+        ValueRow(vehicleLabel, "${number(m.vehicleSpeedKmh)} km/h", editSpeeds)
+    }
+}
+
+@Composable
+private fun CompetitionCard(config: EngineConfig, vm: SettingsViewModel, onEdit: (EditRequest) -> Unit) {
+    val c = config.competitions
+    val title = stringResource(R.string.section_competitions)
+    val labels = listOf(
+        stringResource(R.string.competitions_weekday_hours),
+        stringResource(R.string.competitions_weekend_hours),
+        stringResource(R.string.competitions_max_concurrent),
+    )
+    OxCard(onClick = {
+        onEdit(
+            EditRequest(
+                title,
+                listOf(
+                    NumberInput(labels[0], number(c.weekdayHours)),
+                    NumberInput(labels[1], number(c.weekendHours)),
+                    NumberInput(labels[2], c.maxConcurrent.toString()),
+                ),
+            ) { v -> vm.updateCompetitions(v[0] ?: c.weekdayHours, v[1] ?: c.weekendHours, v[2]?.toInt() ?: c.maxConcurrent.toInt()) },
+        )
+    }) {
+        SectionLabel(title)
+        ValueRow(labels[0], "${number(c.weekdayHours)} h")
+        ValueRow(labels[1], "${number(c.weekendHours)} h")
+        ValueRow(labels[2], c.maxConcurrent.toString())
     }
 }
 

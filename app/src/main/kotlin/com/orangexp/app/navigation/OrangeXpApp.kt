@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Tune
@@ -28,6 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import com.orangexp.app.R
 import com.orangexp.feature.academics.navigation.AcademicsDestination
 import com.orangexp.feature.academics.navigation.academicsScreen
+import com.orangexp.feature.competitions.navigation.CompetitionsDestination
+import com.orangexp.feature.competitions.navigation.competitionsScreen
 import com.orangexp.feature.history.navigation.HistoryDestination
 import com.orangexp.feature.history.navigation.historyScreen
 import com.orangexp.feature.settings.navigation.SettingsDestination
@@ -46,6 +49,7 @@ enum class TopLevelDestination(
     Today(TodayDestination, TodayDestination::class, Icons.Filled.CalendarMonth, R.string.nav_today),
     History(HistoryDestination, HistoryDestination::class, Icons.Filled.GridView, R.string.nav_history),
     Academics(AcademicsDestination, AcademicsDestination::class, Icons.Filled.School, R.string.nav_academics),
+    Compete(CompetitionsDestination, CompetitionsDestination::class, Icons.Filled.EmojiEvents, R.string.nav_compete),
     Settings(SettingsDestination, SettingsDestination::class, Icons.Filled.Tune, R.string.nav_settings),
 }
 
@@ -90,6 +94,7 @@ fun OrangeXpApp() {
             todayScreen()
             historyScreen()
             academicsScreen()
+            competitionsScreen()
             settingsScreen()
         }
     }

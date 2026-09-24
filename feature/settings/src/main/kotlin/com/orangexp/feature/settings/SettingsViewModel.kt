@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.orangexp.core.common.widgets.HomeWidgetKind
 import com.orangexp.core.common.widgets.HomeWidgets
 import com.orangexp.core.data.repository.ConfigRepository
+import com.orangexp.core.data.repository.MovementRepository
 import com.orangexp.core.engine.OrangeEngine
 import com.orangexp.core.engine.ffi.ConfigIssue
 import com.orangexp.core.engine.ffi.DayState
@@ -32,6 +33,9 @@ data class SettingsUiState(
     val permissions: TrackingPermissions? = null,
     val engineVersion: String = "",
     val issues: List<ConfigIssue> = emptyList(),
+    val movementEnabled: Boolean = false,
+    /** Location/activity permissions walking detection still needs. */
+    val movementMissingPermissions: List<String> = emptyList(),
 )
 
 @HiltViewModel
@@ -39,8 +43,12 @@ class SettingsViewModel @Inject constructor(
     private val configRepository: ConfigRepository,
     private val permissionChecker: TrackingPermissionChecker,
     private val homeWidgets: HomeWidgets,
+    private val movement: MovementRepository,
     engine: OrangeEngine,
 ) : ViewModel() {
+
+    val movementSupported: Boolean = movement.isSupported()
+    private val movementMissing = MutableStateFlow(movement.missingPermissions())
 
     val canPinWidgets: Boolean = homeWidgets.canPin()
 
@@ -54,12 +62,38 @@ class SettingsViewModel @Inject constructor(
     /** One-shot JSON exports for the share sheet. */
     val exportedJson: Flow<String> = exports.receiveAsFlow()
 
-    val uiState: StateFlow<SettingsUiState> = combine(configRepository.config, permissions, issues) { config, perms, problems ->
-        SettingsUiState(config, perms, engine.version, problems)
+    val uiState: StateFlow<SettingsUiState> = combine(
+        configRepository.config,
+        permissions,
+        issues,
+        movement.enabled,
+        movementMissing,
+    ) { config, perms, problems, movementOn, missing ->
+        SettingsUiState(config, perms, engine.version, problems, movementOn, missing)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SettingsUiState())
 
     fun refreshPermissions() {
         permissions.value = permissionChecker.current()
+        movementMissing.value = movement.missingPermissions()
+    }
+
+    fun setMovementEnabled(enabled: Boolean) = launch {
+        movementMissing.value = movement.missingPermissions()
+        movement.setEnabled(enabled)
+    }
+
+    fun updateMovement(maxWalkingKmh: Double, vehicleKmh: Double) = update { config ->
+        config.copy(movement = config.movement.copy(maxWalkingSpeedKmh = maxWalkingKmh, vehicleSpeedKmh = vehicleKmh))
+    }
+
+    fun updateCompetitions(weekdayHours: Double, weekendHours: Double, maxConcurrent: Int) = update { config ->
+        config.copy(
+            competitions = config.competitions.copy(
+                weekdayHours = weekdayHours,
+                weekendHours = weekendHours,
+                maxConcurrent = maxConcurrent.coerceAtLeast(1).toUInt(),
+            ),
+        )
     }
 
     fun usageAccessIntent(): Intent = permissionChecker.usageAccessSettingsIntent()

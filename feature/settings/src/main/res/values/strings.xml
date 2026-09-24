@@ -60,6 +60,19 @@
     <string name="study_max">Max per subject per day</string>
     <string name="study_revision">Finish before exam (days)</string>
 
+    <string name="section_movement">Walking detection</string>
+    <string name="movement_toggle">Tell walking apart from vehicles (GPS)</string>
+    <string name="movement_detail">GPS runs only while Android detects you moving. Steps prove walking; moving faster than your walking speed without steps counts as a vehicle. Location never leaves this phone.</string>
+    <string name="movement_needs_permission">Set location to \"Allow all the time\" so walks are recorded while the app is closed.</string>
+    <string name="movement_walking_speed">Your top walking speed</string>
+    <string name="movement_vehicle_speed">Always a vehicle above</string>
+    <string name="movement_speed_hint">Between these speeds your steps decide: walking steps mean walking, no steps means a vehicle.</string>
+
+    <string name="section_competitions">Competitions</string>
+    <string name="competitions_weekday_hours">Hours per weekday for competitions</string>
+    <string name="competitions_weekend_hours">Hours per weekend day</string>
+    <string name="competitions_max_concurrent">Most competitions at once</string>
+
     <string name="section_streak">Streak and heatmap</string>
     <string name="streak_min">Streak minimum points</string>
     <string name="streak_state">Worst state that keeps a streak</string>
