@@ -40,6 +40,7 @@ class MigrationTest {
             assertEquals(listOf("Maths"), db.syllabusDao().getSubjects().map { it.name })
             assertEquals(1, db.timetableDao().getAll().size)
             assertEquals(0, db.competitionDao().getAll().size)
+            assertEquals(0, db.reminderDao().getActive().size)
         } finally {
             db.close()
         }

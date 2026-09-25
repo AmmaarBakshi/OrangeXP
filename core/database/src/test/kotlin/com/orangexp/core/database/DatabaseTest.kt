@@ -3,10 +3,12 @@ package com.orangexp.core.database
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.orangexp.core.database.dao.DaySnapshot
+import com.orangexp.core.database.model.AssistantMessageEntity
 import com.orangexp.core.database.model.DayCategoryPointsEntity
 import com.orangexp.core.database.model.DayContributionEntity
 import com.orangexp.core.database.model.DayRecordEntity
 import com.orangexp.core.database.model.DeviceEventEntity
+import com.orangexp.core.database.model.ReminderEntity
 import com.orangexp.core.database.model.SleepSessionEntity
 import com.orangexp.core.database.model.StudySessionEntity
 import com.orangexp.core.database.model.SubjectEntity
@@ -102,5 +104,25 @@ class DatabaseTest {
         dao.updateSession(dao.getRunning()!!.copy(endMs = 61_000))
         assertNull(dao.getRunning())
         assertEquals(60_000, dao.studiedPerTopic().single().totalMs)
+    }
+
+    @Test
+    fun activeRemindersAreOrderedByNextFireAndFinishedOnesMoveAway() = runTest {
+        val dao = db.reminderDao()
+        val later = dao.upsert(ReminderEntity(title = "Later", sourceText = "", kind = "REMINDER", atMs = 5_000, nextFireMs = 5_000, createdMs = 0))
+        val sooner = dao.upsert(ReminderEntity(title = "Sooner", sourceText = "", kind = "DEADLINE", atMs = 9_000, nextFireMs = 2_000, createdMs = 0))
+        assertEquals(listOf(sooner, later), dao.observeActive().first().map { it.id })
+
+        dao.finish(sooner, "DONE", completedMs = 3_000)
+        assertEquals(listOf(later), dao.getActive().map { it.id })
+        assertEquals(listOf(sooner), dao.observeFinished(10).first().map { it.id })
+        assertNull(dao.get(sooner)!!.nextFireMs)
+    }
+
+    @Test
+    fun conversationKeepsTheNewestMessagesInOrder() = runTest {
+        val dao = db.assistantMessageDao()
+        (1..5).forEach { dao.insert(AssistantMessageEntity(role = "USER", text = "m$it", timestampMs = it.toLong())) }
+        assertEquals(listOf("m4", "m5"), dao.recent(2).map { it.text })
     }
 }

@@ -3,12 +3,14 @@ package com.orangexp.core.database
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.orangexp.core.database.dao.AssistantMessageDao
 import com.orangexp.core.database.dao.AttendanceDao
 import com.orangexp.core.database.dao.CompetitionDao
 import com.orangexp.core.database.dao.DayRecordDao
 import com.orangexp.core.database.dao.DeviceEventDao
 import com.orangexp.core.database.dao.KeyValueDao
 import com.orangexp.core.database.dao.MovementDao
+import com.orangexp.core.database.dao.ReminderDao
 import com.orangexp.core.database.dao.SleepDao
 import com.orangexp.core.database.dao.StepsDao
 import com.orangexp.core.database.dao.StudyDao
@@ -16,6 +18,7 @@ import com.orangexp.core.database.dao.SyllabusDao
 import com.orangexp.core.database.dao.TimetableDao
 import com.orangexp.core.database.dao.TravelDao
 import com.orangexp.core.database.model.ActivityTransitionEntity
+import com.orangexp.core.database.model.AssistantMessageEntity
 import com.orangexp.core.database.model.AttendanceEntity
 import com.orangexp.core.database.model.CompetitionEntity
 import com.orangexp.core.database.model.CompetitionMemberEntity
@@ -28,6 +31,7 @@ import com.orangexp.core.database.model.DayStateFindingEntity
 import com.orangexp.core.database.model.DeviceEventEntity
 import com.orangexp.core.database.model.KeyValueEntity
 import com.orangexp.core.database.model.LocationFixEntity
+import com.orangexp.core.database.model.ReminderEntity
 import com.orangexp.core.database.model.SleepSessionEntity
 import com.orangexp.core.database.model.StepSampleEntity
 import com.orangexp.core.database.model.StudyPlanEntity
@@ -46,11 +50,12 @@ import com.orangexp.core.database.model.UnitEntity
  * migration; exported schemas live in `core/database/schemas`.
  *
  * - v2: movement tracking (fixes, step samples, activity transitions) and competitions.
+ * - v3: Holstrom reminders and conversation.
  */
 @Database(
-    version = 2,
+    version = 3,
     exportSchema = true,
-    autoMigrations = [AutoMigration(from = 1, to = 2)],
+    autoMigrations = [AutoMigration(from = 1, to = 2), AutoMigration(from = 2, to = 3)],
     entities = [
         DeviceEventEntity::class,
         DailyStepsEntity::class,
@@ -77,6 +82,8 @@ import com.orangexp.core.database.model.UnitEntity
         CompetitionEntity::class,
         TeamMemberEntity::class,
         CompetitionMemberEntity::class,
+        ReminderEntity::class,
+        AssistantMessageEntity::class,
     ],
 )
 abstract class OrangeXpDatabase : RoomDatabase() {
@@ -92,4 +99,6 @@ abstract class OrangeXpDatabase : RoomDatabase() {
     abstract fun travelDao(): TravelDao
     abstract fun movementDao(): MovementDao
     abstract fun competitionDao(): CompetitionDao
+    abstract fun reminderDao(): ReminderDao
+    abstract fun assistantMessageDao(): AssistantMessageDao
 }
