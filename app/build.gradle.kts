@@ -64,6 +64,13 @@ android {
 
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        // Holstrom's on-device language model runtime (~26 MB per ABI) ships for 64-bit ARM only:
+        // a 2B model is out of reach for 32-bit phones, and emulators don't need it.
+        jniLibs.excludes += listOf(
+            "lib/armeabi-v7a/libllm_inference_engine_jni.so",
+            "lib/x86/libllm_inference_engine_jni.so",
+            "lib/x86_64/libllm_inference_engine_jni.so",
+        )
     }
 }
 
@@ -74,6 +81,7 @@ dependencies {
     implementation(projects.feature.competitions)
     implementation(projects.feature.settings)
     implementation(projects.feature.widgets)
+    implementation(projects.feature.holstrom)
 
     implementation(projects.core.common)
     implementation(projects.core.data)
@@ -88,4 +96,5 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.work)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.glance.appwidget)
 }

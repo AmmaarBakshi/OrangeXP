@@ -228,6 +228,10 @@ class LanguageModel @Inject constructor(
         )
         val (llm, gpu) = try {
             create(useGpu) to useGpu
+        } catch (e: UnsatisfiedLinkError) {
+            // The runtime is packaged for 64-bit ARM only.
+            _state.value = ModelState.Failed(model, "This phone's processor is not supported (64-bit ARM needed)")
+            throw IllegalStateException("Language model runtime not available on this device", e)
         } catch (e: Exception) {
             if (!useGpu) {
                 _state.value = ModelState.Failed(model, e.message ?: "The model could not be loaded")
