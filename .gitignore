@@ -37,3 +37,6 @@ personal/
 *.db-wal
 *.db-shm
 orangexp-config*.json
+
+# IDE build output from the Java language server
+bin/
