@@ -6,4 +6,33 @@
     <string name="reminder_prepare_body">%1$s starts at %2$s. Leave by %3$s.</string>
     <string name="reminder_leave_title">Leave now</string>
     <string name="reminder_leave_body">%1$s starts at %2$s. Leaving now puts you there %3$d min early.</string>
+
+    <!-- Holstrom -->
+    <string name="holstrom_name">Holstrom</string>
+    <string name="channel_holstrom_reminders_name">Holstrom reminders</string>
+    <string name="channel_holstrom_reminders_description">Reminders and deadline nudges you asked Holstrom for.</string>
+    <string name="channel_holstrom_actions_name">Holstrom phone actions</string>
+    <string name="channel_holstrom_actions_description">Short notes when Holstrom silences your phone or changes Do Not Disturb.</string>
+    <string name="holstrom_notification_reminder">Reminder</string>
+    <string name="holstrom_due_now">Due now</string>
+    <string name="holstrom_due_today">Due today</string>
+    <string name="holstrom_due_tomorrow">Due tomorrow</string>
+    <plurals name="holstrom_days_left">
+        <item quantity="one">%d day left</item>
+        <item quantity="other">%d days left</item>
+    </plurals>
+    <string name="holstrom_action_done">Done</string>
+    <string name="holstrom_action_snooze">Snooze 1 h</string>
+    <string name="holstrom_action_performed">Done: %1$s.</string>
+    <string name="holstrom_action_needs_access">Couldn\'t %1$s: allow Do Not Disturb access for OrangeXP. Tap to open the setting.</string>
+    <string name="holstrom_action_failed">Couldn\'t %1$s on this phone.</string>
+    <string name="holstrom_device_silent">silence the phone</string>
+    <string name="holstrom_device_vibrate">switch to vibrate</string>
+    <string name="holstrom_device_ring">turn the ringer back on</string>
+    <string name="holstrom_device_dnd_on">turn on Do Not Disturb</string>
+    <string name="holstrom_device_dnd_off">turn off Do Not Disturb</string>
+    <string name="holstrom_device_flashlight_on">turn on the flashlight</string>
+    <string name="holstrom_device_flashlight_off">turn off the flashlight</string>
+    <string name="holstrom_device_alarm">set the alarm</string>
+    <string name="holstrom_device_timer">start the timer</string>
 </resources>
