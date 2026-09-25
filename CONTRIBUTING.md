@@ -7,8 +7,9 @@ Thanks for helping. OrangeXP is a measurement instrument, so correctness and det
 - **Algorithms live in Rust** (`orangexp-core`) and ship with unit tests. Android code never
   re-implements scoring, state or scheduling logic.
 - **Android integration lives in Kotlin.** Rust never knows Android exists.
-- **No runtime AI.** No LLM calls, generated messages or "AI insights". If a rule, statistic or
-  algorithm can do it, use that.
+- **No AI in measurement.** Scores, states, schedules and reminders never depend on a model. If a
+  rule, statistic or algorithm can do it, use that. Holstrom's optional on-device language model
+  only holds conversations: it reads the briefing and never writes data.
 - **No score inflation.** No multipliers, streak bonuses or hidden adjustments. Every point must be
   explainable through a rule contribution.
 - **Battery matters.** No polling loops or long-running services. Prefer system history,
