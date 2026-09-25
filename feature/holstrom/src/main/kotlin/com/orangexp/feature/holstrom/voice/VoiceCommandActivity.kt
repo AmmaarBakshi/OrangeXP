@@ -1,7 +1,9 @@
 package com.orangexp.feature.holstrom.voice
 
 import android.Manifest
+import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -110,11 +112,37 @@ class VoiceCommandActivity : ComponentActivity() {
                     onDismiss = { finish() },
                     onOpenApp = {
                         viewModel.cancelAutoClose()
-                        HolstromIntents.openHolstrom(this)?.let(::startActivity)
-                        finish()
+                        openAppAfterUnlock()
                     },
                 )
             }
+        }
+    }
+
+    /** Tapping the widget or tile again while the sheet is open starts a new question. */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (hasMic(this)) viewModel.listen()
+    }
+
+    /** Over the lock screen, the app itself needs an unlock first. */
+    private fun openAppAfterUnlock() {
+        val open = {
+            HolstromIntents.openHolstrom(this)?.let(::startActivity)
+            finish()
+        }
+        val keyguard = getSystemService(KeyguardManager::class.java)
+        if (keyguard?.isKeyguardLocked == true) {
+            keyguard.requestDismissKeyguard(
+                this,
+                object : KeyguardManager.KeyguardDismissCallback() {
+                    override fun onDismissSucceeded() {
+                        open()
+                    }
+                },
+            )
+        } else {
+            open()
         }
     }
 
