@@ -17,6 +17,7 @@ kotlinxCoroutines = "1.10.2"
 kotlinxSerialization = "1.9.0"
 jna = "5.18.1"
 playServicesLocation = "21.3.0"
+mediapipeGenai = "0.10.35"
 junit4 = "4.13.2"
 robolectric = "4.16"
 turbine = "1.2.1"
@@ -52,6 +53,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+mediapipe-tasks-genai = { module = "com.google.mediapipe:tasks-genai", version.ref = "mediapipeGenai" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
