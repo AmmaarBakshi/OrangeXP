@@ -30,4 +30,6 @@ object DatabaseModule {
     @Provides fun travelDao(db: OrangeXpDatabase) = db.travelDao()
     @Provides fun movementDao(db: OrangeXpDatabase) = db.movementDao()
     @Provides fun competitionDao(db: OrangeXpDatabase) = db.competitionDao()
+    @Provides fun reminderDao(db: OrangeXpDatabase) = db.reminderDao()
+    @Provides fun assistantMessageDao(db: OrangeXpDatabase) = db.assistantMessageDao()
 }
