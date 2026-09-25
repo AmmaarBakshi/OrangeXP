@@ -8,6 +8,7 @@ import com.orangexp.core.database.model.DayCategoryPointsEntity
 import com.orangexp.core.database.model.DayContributionEntity
 import com.orangexp.core.database.model.DayRecordEntity
 import com.orangexp.core.database.model.DeviceEventEntity
+import com.orangexp.core.database.model.ReminderCompletionEntity
 import com.orangexp.core.database.model.ReminderEntity
 import com.orangexp.core.database.model.SleepSessionEntity
 import com.orangexp.core.database.model.StudySessionEntity
@@ -117,6 +118,10 @@ class DatabaseTest {
         assertEquals(listOf(later), dao.getActive().map { it.id })
         assertEquals(listOf(sooner), dao.observeFinished(10).first().map { it.id })
         assertNull(dao.get(sooner)!!.nextFireMs)
+
+        dao.insertCompletion(ReminderCompletionEntity(reminderId = sooner, completedMs = 3_000))
+        dao.delete(sooner)
+        assertEquals(1, dao.completionsBetween(0, 10_000), "completions outlive their reminder")
     }
 
     @Test

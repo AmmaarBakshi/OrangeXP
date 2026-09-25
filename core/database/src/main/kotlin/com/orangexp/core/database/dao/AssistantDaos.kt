@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 import com.orangexp.core.database.model.AssistantMessageEntity
+import com.orangexp.core.database.model.ReminderCompletionEntity
 import com.orangexp.core.database.model.ReminderEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -36,6 +37,12 @@ interface ReminderDao {
 
     @Query("DELETE FROM reminders WHERE status != 'ACTIVE'")
     suspend fun clearFinished()
+
+    @Insert
+    suspend fun insertCompletion(completion: ReminderCompletionEntity): Long
+
+    @Query("SELECT COUNT(*) FROM reminder_completions WHERE completedMs >= :fromMs AND completedMs < :toMs")
+    suspend fun completionsBetween(fromMs: Long, toMs: Long): Int
 }
 
 @Dao
