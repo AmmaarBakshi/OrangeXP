@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- Voice overlay: widget, tile, launcher shortcut, headset button and assist gesture all land here.
+             It shows over the lock screen so Holstrom can be used without unlocking. -->
+        <activity
+            android:name=".voice.VoiceCommandActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/shortcut_talk_long"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.orangexp.holstrom"
+            android:theme="@style/Theme.OrangeXP.HolstromOverlay"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="com.orangexp.action.HOLSTROM_LISTEN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VOICE_COMMAND" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".voice.HolstromTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_holstrom_mic"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="false" />
+        </service>
+
+        <!-- Static widget: it only refreshes when reminders change (updatePeriodMillis = 0). -->
+        <receiver
+            android:name=".widget.HolstromWidgetReceiver"
+            android:exported="false"
+            android:label="@string/widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_holstrom_info" />
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="holstrom">Holstrom</string>
+    <string name="holstrom_tagline">Your offline assistant</string>
+
+    <!-- Tabs -->
+    <string name="tab_talk">Talk</string>
+    <string name="tab_plans">Plans</string>
+    <string name="tab_setup">Setup</string>
+
+    <!-- Talk -->
+    <string name="talk_hint">Ask or tell Holstrom anything</string>
+    <string name="talk_send">Send</string>
+    <string name="talk_mic">Hold to talk</string>
+    <string name="talk_stop">Stop</string>
+    <string name="talk_listening">Listening…</string>
+    <string name="talk_thinking">Thinking…</string>
+    <string name="talk_speaking">Speaking…</string>
+    <string name="talk_idle">Tap or hold the mic</string>
+    <string name="talk_empty_title">Hello. I\'m Holstrom.</string>
+    <string name="talk_empty_body">Try \"remind me to text Ria tomorrow\", \"I have to submit my assignment on 3 Oct\", \"silent my phone after 1 hour\" or \"how am I doing?\"</string>
+    <string name="talk_clear">Clear conversation</string>
+    <string name="talk_stop_speaking">Stop speaking</string>
+    <string name="talk_grant_access">Allow access</string>
+    <string name="talk_install_model">Set up the model</string>
+
+    <!-- Plans -->
+    <string name="plans_composer_label">What do you need to do, and when?</string>
+    <string name="plans_composer_placeholder">e.g. submit assignment by 3 oct</string>
+    <string name="plans_add">Add</string>
+    <string name="plans_due">Due now</string>
+    <string name="plans_upcoming">Upcoming</string>
+    <string name="plans_actions">Scheduled phone actions</string>
+    <string name="plans_finished">Done recently</string>
+    <string name="plans_empty_title">Nothing planned</string>
+    <string name="plans_empty_body">Write or say what you have to do. Holstrom works out when to remind you.</string>
+    <string name="plans_done">Done</string>
+    <string name="plans_snooze">Snooze 1 h</string>
+    <string name="plans_delete">Delete</string>
+    <string name="plans_edit">Edit</string>
+    <string name="plans_clear_finished">Clear</string>
+    <string name="plans_edit_title">Edit reminder</string>
+    <string name="plans_edit_text">Title</string>
+    <string name="plans_edit_time">Time</string>
+    <string name="plans_preview_reminder">Reminder · %1$s</string>
+    <string name="plans_preview_daily">Every day · %1$s</string>
+    <string name="plans_preview_weekly">Every week · %1$s</string>
+    <string name="plans_preview_deadline">Deadline · %1$s · nudges daily</string>
+    <string name="plans_preview_action">Phone action · %1$s</string>
+    <string name="plans_preview_question">A question: Holstrom will answer it</string>
+    <string name="plans_next">Next: %1$s</string>
+    <string name="plans_went_off">Went off %1$s</string>
+    <string name="plans_repeats_daily">every day</string>
+    <string name="plans_repeats_weekly">every week</string>
+    <string name="plans_due_on">due %1$s</string>
+
+    <!-- Setup -->
+    <string name="setup_brain">Brain</string>
+    <string name="setup_brain_body">Reminders, deadlines, phone actions and questions about your day work without a model. For open conversation and deeper analysis, Holstrom runs a language model entirely on this phone. Nothing is ever sent anywhere.</string>
+    <string name="setup_model_none">No model installed</string>
+    <string name="setup_model_installed">%1$s · %2$s</string>
+    <string name="setup_model_loading">Loading into memory…</string>
+    <string name="setup_model_ready_cpu">Ready (CPU)</string>
+    <string name="setup_model_ready_gpu">Ready (GPU)</string>
+    <string name="setup_model_idle">Installed, loads when needed</string>
+    <string name="setup_model_importing">Importing… %1$d%%</string>
+    <string name="setup_model_importing_unknown">Importing…</string>
+    <string name="setup_model_failed">Problem: %1$s</string>
+    <string name="setup_model_import">Import model file</string>
+    <string name="setup_model_replace">Replace model</string>
+    <string name="setup_model_remove">Remove model</string>
+    <string name="setup_model_help">Recommended: Gemma 3n E2B (about 2 billion effective parameters, gemma-3n-E2B-it-int4.task, ~3 GB) or Gemma 2 2B IT. Download a MediaPipe .task file from Hugging Face (litert-community) or Kaggle on any device, copy it to this phone and import it here. You can delete the downloaded copy afterwards. Phones with 6 GB of RAM or more work best.</string>
+    <string name="setup_use_model">Use the model for conversation</string>
+    <string name="setup_use_gpu">Run on the GPU</string>
+    <string name="setup_use_gpu_body">Faster on most phones; falls back to the CPU if the model does not support it.</string>
+    <string name="setup_voice">Voice</string>
+    <string name="setup_speak">Speak replies aloud</string>
+    <string name="setup_mic">Microphone</string>
+    <string name="setup_mic_granted">Allowed</string>
+    <string name="setup_mic_needed">Needed to talk to Holstrom</string>
+    <string name="setup_reminders">Reminders</string>
+    <string name="setup_nudge_time">Deadline nudges</string>
+    <string name="setup_nudge_time_body">Every day at %1$s until a deadline</string>
+    <string name="setup_default_time">Default time</string>
+    <string name="setup_default_time_body">For \"tomorrow\" or a date without a time: %1$s</string>
+    <string name="setup_permissions">Permissions</string>
+    <string name="setup_notifications">Notifications</string>
+    <string name="setup_exact_alarms">Alarms and reminders</string>
+    <string name="setup_exact_alarms_body">Lets reminders arrive on time while the phone sleeps</string>
+    <string name="setup_dnd_access">Do Not Disturb access</string>
+    <string name="setup_dnd_access_body">Lets Holstrom silence the phone or turn on Do Not Disturb</string>
+    <string name="setup_allowed">Allowed</string>
+    <string name="setup_allow">Allow</string>
+    <string name="setup_everywhere">Holstrom everywhere</string>
+    <string name="setup_widget">Add the mic widget</string>
+    <string name="setup_widget_body">Tap the mic on your home screen and start talking.</string>
+    <string name="setup_tile_body">Quick Settings: add the Holstrom tile to talk from the lock screen.</string>
+    <string name="setup_add">Add</string>
+    <string name="setup_about">Holstrom · internal name UIH32 · engine %1$s</string>
+
+    <!-- Voice overlay -->
+    <string name="overlay_tap_to_talk">Tap the mic to talk</string>
+    <string name="overlay_no_mic">Holstrom needs the microphone to hear you.</string>
+    <string name="overlay_open_app">Open</string>
+
+    <!-- Quick Settings tile / shortcut / widget -->
+    <string name="tile_label">Holstrom</string>
+    <string name="shortcut_talk_short">Talk</string>
+    <string name="shortcut_talk_long">Talk to Holstrom</string>
+    <string name="widget_name">Holstrom mic</string>
+    <string name="widget_description">Tap to talk to Holstrom. Shows what\'s next.</string>
+    <string name="widget_nothing_next">Nothing planned</string>
+
+    <!-- Speech errors -->
+    <string name="speech_no_permission">I need microphone access to hear you.</string>
+    <string name="speech_not_available">Speech recognition isn\'t available on this phone. You can still type.</string>
+    <string name="speech_nothing_heard">I didn\'t catch that.</string>
+    <string name="speech_network">The speech recognizer needs its offline language pack. Install it in your phone\'s speech settings, or type instead.</string>
+    <string name="speech_busy">The microphone is busy. Try again in a moment.</string>
+    <string name="speech_other">Something went wrong while listening.</string>
+
+    <!-- Confirmations -->
+    <string name="reply_reminder">Got it. I\'ll remind you to %1$s %2$s.</string>
+    <string name="reply_reminder_guessed">Got it. I\'ll remind you to %1$s %2$s. Tell me a time if you want another one.</string>
+    <string name="reply_daily">Every day at %2$s I\'ll remind you to %1$s.</string>
+    <string name="reply_weekly">Every %3$s at %2$s I\'ll remind you to %1$s.</string>
+    <string name="reply_deadline">Noted: %1$s, due %2$s. I\'ll nudge you every day at %3$s until then.</string>
+    <string name="reply_deadline_timed">Noted: %1$s, due %2$s. I\'ll nudge you every day at %3$s, and again when it\'s due.</string>
+    <string name="reply_action_scheduled">Okay. %2$s I\'ll %1$s.</string>
+    <string name="reply_action_revert">I\'ll change it back %1$s.</string>
+    <string name="reply_action_needs_access">I need Do Not Disturb access to %1$s. Tap Allow access, then ask me again.</string>
+    <string name="reply_action_needs_access_scheduled">I\'ve scheduled it, but I need Do Not Disturb access to %1$s. Tap Allow access before then.</string>
+    <string name="reply_action_unsupported">This phone doesn\'t let me %1$s.</string>
+    <string name="reply_action_failed">I couldn\'t %1$s.</string>
+    <string name="reply_silent">Done. Your phone is on silent.</string>
+    <string name="reply_vibrate">Done. Your phone is on vibrate.</string>
+    <string name="reply_ring">Done. The ringer is back on.</string>
+    <string name="reply_dnd_on">Done. Do Not Disturb is on.</string>
+    <string name="reply_dnd_off">Done. Do Not Disturb is off.</string>
+    <string name="reply_flashlight_on">Flashlight on.</string>
+    <string name="reply_flashlight_off">Flashlight off.</string>
+    <string name="reply_alarm">Alarm set for %1$s.</string>
+    <string name="reply_timer">Timer started for %1$s.</string>
+    <string name="reply_timer_unknown">How long should the timer run? Say something like \"timer for 10 minutes\".</string>
+    <string name="reply_alarm_unknown">What time should the alarm ring? Say something like \"alarm at 6:30 am\".</string>
+
+    <!-- When phrases -->
+    <string name="when_today">today at %1$s</string>
+    <string name="when_tomorrow">tomorrow at %1$s</string>
+    <string name="when_weekday">on %1$s at %2$s</string>
+    <string name="when_date">on %1$s at %2$s</string>
+    <string name="when_in_minutes">in %1$d min (%2$s)</string>
+    <string name="when_now">now</string>
+
+    <!-- Answers -->
+    <string name="answer_time">It\'s %1$s.</string>
+    <string name="answer_date">Today is %1$s.</string>
+    <string name="answer_score">You\'re on %1$s points today, %2$s.</string>
+    <string name="answer_score_reason">The day is %1$s because of %2$s.</string>
+    <string name="answer_score_top">Most points from %1$s.</string>
+    <string name="answer_score_none">There\'s no score for today yet. It updates every 15 minutes.</string>
+    <string name="answer_sleep">You slept %1$s (confidence %2$d%%).</string>
+    <string name="answer_sleep_plain">You slept %1$s.</string>
+    <string name="answer_sleep_awake">You\'ve been awake since %1$s.</string>
+    <string name="answer_sleep_asleep">You seem to be resting since %1$s.</string>
+    <string name="answer_sleep_none">I don\'t have a sleep estimate yet. It needs usage access, set up on the Today tab.</string>
+    <string name="answer_steps">%1$s steps today, %2$s walked.</string>
+    <string name="answer_steps_plain">%1$s steps today.</string>
+    <string name="answer_steps_none">No steps recorded today yet.</string>
+    <string name="answer_streak">Your streak is %1$d days. Longest ever: %2$d.</string>
+    <string name="answer_streak_zero">No streak running right now. Your longest was %1$d days. Today is a good day to start one.</string>
+    <string name="answer_classes_none">No classes today.</string>
+    <string name="answer_classes">Today: %1$s.</string>
+    <string name="answer_classes_next">Next up: %1$s at %2$s.</string>
+    <string name="answer_classes_done">Classes are over for today.</string>
+    <string name="answer_leave">Leave by %1$s (start getting ready at %2$s).</string>
+    <string name="answer_study_none">Nothing is planned to study today.</string>
+    <string name="answer_study">Today\'s plan: %1$s. %2$d of %3$d done.</string>
+    <string name="answer_study_risk">Behind on %1$s.</string>
+    <string name="answer_study_exam">Next exam: %1$s on %2$s.</string>
+    <string name="answer_reminders_none">Nothing pending. Tell me what you need to do.</string>
+    <string name="answer_reminders">Pending: %1$s.</string>
+    <string name="answer_competitions_none">No upcoming competitions.</string>
+    <string name="answer_competitions">Upcoming: %1$s. You can take on %2$d at once.</string>
+    <string name="answer_summary_trend_up">Your 7-day average is %1$s points and trending up.</string>
+    <string name="answer_summary_trend_down">Your 7-day average is %1$s points and trending down.</string>
+    <string name="answer_summary_trend_flat">Your 7-day average is %1$s points.</string>
+    <string name="answer_summary_tasks">%1$d task(s) ticked off today.</string>
+    <string name="answer_no_model">Without a language model I handle reminders, deadlines, phone actions and questions about your day, like \"how did I sleep?\" or \"what\'s next?\". Install a model in Setup and I can talk about anything, fully offline.</string>
+    <string name="answer_model_failed">My language model couldn\'t answer (%1$s). Here\'s what I know:</string>
+    <string name="answer_greeting">Hello. What do you need?</string>
+
+    <!-- Verdicts -->
+    <string name="verdict_recommended">fits</string>
+    <string name="verdict_committed">registered</string>
+    <string name="verdict_tight">too tight</string>
+</resources>
