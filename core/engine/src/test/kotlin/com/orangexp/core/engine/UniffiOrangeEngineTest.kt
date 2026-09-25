@@ -1,11 +1,15 @@
 package com.orangexp.core.engine
 
+import com.orangexp.core.engine.ffi.CommandInput
+import com.orangexp.core.engine.ffi.CommandKind
 import com.orangexp.core.engine.ffi.DayInput
 import com.orangexp.core.engine.ffi.DayState
 import com.orangexp.core.engine.ffi.DeviceEvent
 import com.orangexp.core.engine.ffi.DeviceEventKind
 import com.orangexp.core.engine.ffi.EngineException
 import com.orangexp.core.engine.ffi.Measurement
+import com.orangexp.core.engine.ffi.RepeatRule
+import com.orangexp.core.engine.ffi.ReminderSchedule
 import com.orangexp.core.engine.ffi.TimetableSlot
 import com.orangexp.core.engine.ffi.Weekday
 import kotlin.test.Test
@@ -85,5 +89,22 @@ class UniffiOrangeEngineTest {
             engine.planFirstDeparture(listOf(slot), Weekday.MONDAY, emptyList(), engine.defaultConfig().travel),
         )
         assertEquals(405, plan.leaveMinute)
+    }
+
+    @Test
+    fun `parses a deadline and schedules its daily nudges`() {
+        // 2026-09-26 14:00 UTC
+        val now = 20_722L * 86_400_000L + 14 * 3_600_000L
+        val command = engine.parseCommand(
+            CommandInput("i have to submit my assignment at 3 oct", now, 0, 540u, 60u),
+        )
+        assertEquals(CommandKind.DEADLINE, command.kind)
+        assertEquals("Submit my assignment", command.title)
+        assertEquals(RepeatRule.DAILY_UNTIL_DUE, command.repeat)
+
+        val schedule = ReminderSchedule(assertNotNull(command.atMs), command.repeat, 540u, false)
+        val first = assertNotNull(engine.nextReminderFire(schedule, now, 0))
+        assertEquals(6, first.daysLeft)
+        assertEquals(20_723L * 86_400_000L + 9 * 3_600_000L, first.atMs)
     }
 }

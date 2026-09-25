@@ -2,6 +2,7 @@ package com.orangexp.core.engine
 
 import com.orangexp.core.engine.ffi.AdherenceResult
 import com.orangexp.core.engine.ffi.CapacityInput
+import com.orangexp.core.engine.ffi.CommandInput
 import com.orangexp.core.engine.ffi.Competition
 import com.orangexp.core.engine.ffi.CompetitionConfig
 import com.orangexp.core.engine.ffi.CompetitionPlan
@@ -18,6 +19,9 @@ import com.orangexp.core.engine.ffi.MetricDefinition
 import com.orangexp.core.engine.ffi.MovementConfig
 import com.orangexp.core.engine.ffi.MovementInput
 import com.orangexp.core.engine.ffi.MovementSummary
+import com.orangexp.core.engine.ffi.ParsedCommand
+import com.orangexp.core.engine.ffi.ReminderFire
+import com.orangexp.core.engine.ffi.ReminderSchedule
 import com.orangexp.core.engine.ffi.ScheduleInput
 import com.orangexp.core.engine.ffi.SleepConfig
 import com.orangexp.core.engine.ffi.SleepDayReport
@@ -86,4 +90,10 @@ interface OrangeEngine {
     fun planCompetitions(competitions: List<Competition>, today: Int, config: CompetitionConfig): CompetitionPlan
 
     fun rankTeammates(competitions: List<Competition>, today: Int, config: CompetitionConfig): List<TeammateStats>
+
+    /** Reads a typed or spoken sentence as a reminder, deadline, phone action or question. */
+    fun parseCommand(input: CommandInput): ParsedCommand
+
+    /** Next alarm of a stored reminder strictly after [afterMs], or `null` when it is over. */
+    fun nextReminderFire(schedule: ReminderSchedule, afterMs: Long, utcOffsetMinutes: Int): ReminderFire?
 }
