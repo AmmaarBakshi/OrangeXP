@@ -89,7 +89,7 @@ Each release also has a `.sha256` file to verify the download.
 
 Requirements:
 
-- JDK 17 or newer (Android Studio's bundled JBR works)
+- JDK 21 (Android Studio's bundled JBR works). JDK 25 is too new for Gradle 8.14; Robolectric tests for SDK 36 need 21.
 - Android SDK with platform 36 and an NDK (any recent version; the newest installed one is used)
 - Rust (stable) with Android targets and [`cargo-ndk`](https://github.com/bbqsrc/cargo-ndk):
 
