@@ -11,7 +11,9 @@
    screen never makes chains of small calls across the boundary.
 4. **Explainable results.** The engine returns *why* as well as *what*: every rule contribution,
    every state finding, the decisive rule, and whether a cap applied.
-5. **No AI at runtime.** No LLM or cloud dependency. The app works fully offline.
+5. **No AI in measurement.** Scores, states, schedules and reminders come from rules in the engine.
+   The only model is Holstrom's optional on-device language model, used for conversation; it reads
+   a summary of the data and cannot change anything. No cloud dependency: the app works fully offline.
 
 ## Repository layout
 
@@ -28,12 +30,16 @@ core/
   database/               Room entities, DAOs, exported schemas
   sensing/                UsageStats events, step counter, power state, permission checks
   data/                   repositories, measurement assembly, TrackingCoordinator
-  work/                   periodic tracking worker, departure reminders, notification channel
+  work/                   periodic tracking worker, departure reminders, notification channels,
+                          Holstrom alarms, notifications and phone actions (ringer, DND, torch, clock app)
+  voice/                  speech recognition (on-device first) and text-to-speech
+  llm/                    optional on-device language model (MediaPipe), prompt templates, model import
   designsystem/           orange theme, typography, counters, heatmap, cards, formatters
   ui/                     shared domain→UI mappings (state tones, labels, breakdown list)
 feature/
   today/ history/ academics/ competitions/ settings/
   widgets/                Glance home-screen widgets, refreshed through DataChangeListener
+  holstrom/               the assistant: brain, Talk/Plans/Setup, voice overlay, Quick Settings tile, mic widget
 ```
 
 Dependency direction: `app → feature:* → core:ui → core:data → core:{database, sensing, engine, common}`.
@@ -59,6 +65,7 @@ Features never depend on each other. `core:designsystem` knows nothing about the
 | `adherence` | planned vs. actual work, credit capped per plan item |
 | `movement` | walking vs. vehicle from GPS fixes, step cadence and activity hints; spike removal, median speed, segment smoothing |
 | `competitions` | competition capacity (exact interval-demand feasibility + concurrency limit, exhaustive up to 16 candidates) and teammate ranking |
+| `commands` | Holstrom's sentence parser (reminders, deadlines, phone actions, question topics) and reminder schedules (`next_fire`) |
 | `config` | complete user configuration, defaults, validation, JSON with forward compatibility |
 | `ffi` | UniFFI exports (feature `ffi` only) |
 
@@ -87,6 +94,30 @@ pressure = remaining_minutes / capacity_left_until_target_day × priority_weight
 Ties go to the earlier deadline, then higher priority, then subject id. This interleaves subjects,
 front-loads tight deadlines and reports shortfalls when work cannot fit. Re-running with today's
 date and current progress re-plans after missed days; no special recovery logic is needed.
+
+## Holstrom
+
+```
+text or speech (core:voice)
+  → HolstromBrain
+      ReminderRepository.parse → engine.parseCommand(text, now, utc offset)      deterministic
+        REMINDER / DEADLINE → Room `reminders` → engine.nextReminderFire → exact alarm
+        DEVICE_ACTION       → now: DeviceActions · later: stored + exact alarm (+ undo action)
+        QUESTION            → BriefingRepository (score, sleep, steps, streak, trends, classes,
+                              study plan, exams, competitions, reminders)
+                              known topic → HolstromAnswers (from strings.xml)
+                              open / analysis → core:llm with the briefing as facts (streamed)
+  → conversation stored in Room, reply spoken sentence by sentence (core:voice)
+```
+
+- A reminder alarm fires `ReminderAlarmReceiver` → `ReminderRepository.fire` records it and arms the
+  next one (deadlines nudge daily at a configurable time until due). Boot, clock changes, updates and
+  app start call `restoreAlarms`.
+- Ticking a reminder off stores a row in `reminder_completions`; `DayRepository` turns the day's count
+  into the `tasks.completed` measurement, which the existing *Tasks* rule scores.
+- The model file is imported into no-backup storage, loaded on first use (GPU optional, CPU
+  fallback) and released after three idle minutes. Prompts are formatted per model family with the
+  runtime's own templating switched off, and trimmed to fit the context.
 
 ## Kotlin ↔ Rust bridge
 
