@@ -2,6 +2,7 @@ package com.orangexp.core.engine
 
 import com.orangexp.core.engine.ffi.AdherenceResult
 import com.orangexp.core.engine.ffi.CapacityInput
+import com.orangexp.core.engine.ffi.CommandInput
 import com.orangexp.core.engine.ffi.Competition
 import com.orangexp.core.engine.ffi.CompetitionConfig
 import com.orangexp.core.engine.ffi.CompetitionPlan
@@ -18,6 +19,9 @@ import com.orangexp.core.engine.ffi.MetricDefinition
 import com.orangexp.core.engine.ffi.MovementConfig
 import com.orangexp.core.engine.ffi.MovementInput
 import com.orangexp.core.engine.ffi.MovementSummary
+import com.orangexp.core.engine.ffi.ParsedCommand
+import com.orangexp.core.engine.ffi.ReminderFire
+import com.orangexp.core.engine.ffi.ReminderSchedule
 import com.orangexp.core.engine.ffi.ScheduleInput
 import com.orangexp.core.engine.ffi.SleepConfig
 import com.orangexp.core.engine.ffi.SleepDayReport
@@ -43,6 +47,8 @@ import com.orangexp.core.engine.ffi.evaluateHistory as ffiEvaluateHistory
 import com.orangexp.core.engine.ffi.findTimetableConflicts as ffiFindTimetableConflicts
 import com.orangexp.core.engine.ffi.generateStudySchedule as ffiGenerateStudySchedule
 import com.orangexp.core.engine.ffi.metricCatalog as ffiMetricCatalog
+import com.orangexp.core.engine.ffi.nextReminderFire as ffiNextReminderFire
+import com.orangexp.core.engine.ffi.parseCommand as ffiParseCommand
 import com.orangexp.core.engine.ffi.planCompetitions as ffiPlanCompetitions
 import com.orangexp.core.engine.ffi.planFirstDeparture as ffiPlanFirstDeparture
 import com.orangexp.core.engine.ffi.rankTeammates as ffiRankTeammates
@@ -103,4 +109,9 @@ class UniffiOrangeEngine @Inject constructor() : OrangeEngine {
 
     override fun rankTeammates(competitions: List<Competition>, today: Int, config: CompetitionConfig): List<TeammateStats> =
         ffiRankTeammates(competitions, today, config)
+
+    override fun parseCommand(input: CommandInput): ParsedCommand = ffiParseCommand(input)
+
+    override fun nextReminderFire(schedule: ReminderSchedule, afterMs: Long, utcOffsetMinutes: Int): ReminderFire? =
+        ffiNextReminderFire(schedule, afterMs, utcOffsetMinutes)
 }
