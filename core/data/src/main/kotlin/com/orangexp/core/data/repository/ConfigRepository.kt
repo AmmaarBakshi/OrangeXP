@@ -92,4 +92,5 @@ internal object StorageKeys {
     const val PLAN_GENERATED_FOR_DAY = "plan_generated_for_day"
     const val LAST_FINALIZED_DAY = "last_finalized_day"
     const val MOVEMENT_ENABLED = "movement_enabled"
+    const val HOLSTROM_SETTINGS = "holstrom_settings"
 }

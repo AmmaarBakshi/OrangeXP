@@ -115,7 +115,7 @@ class TrackingPipelineTest {
         )
         days = OfflineDayRepository(
             db.dayRecordDao(), db.deviceEventDao(), db.sleepDao(), db.stepsDao(), db.studyDao(), db.syllabusDao(),
-            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.keyValueDao(), config, engine, movement, clock,
+            db.timetableDao(), db.attendanceDao(), db.travelDao(), db.reminderDao(), db.keyValueDao(), config, engine, movement, clock,
             noChanges, dispatcher,
         )
         travel = OfflineTravelRepository(db.travelDao(), academics, config, engine, clock, dispatcher)

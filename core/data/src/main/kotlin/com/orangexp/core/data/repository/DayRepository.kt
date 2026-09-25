@@ -19,6 +19,7 @@ import com.orangexp.core.database.dao.DayRecordDao
 import com.orangexp.core.database.dao.DaySnapshot
 import com.orangexp.core.database.dao.DeviceEventDao
 import com.orangexp.core.database.dao.KeyValueDao
+import com.orangexp.core.database.dao.ReminderDao
 import com.orangexp.core.database.dao.SleepDao
 import com.orangexp.core.database.dao.StepsDao
 import com.orangexp.core.database.dao.StudyDao
@@ -79,6 +80,7 @@ internal class OfflineDayRepository @Inject constructor(
     private val timetableDao: TimetableDao,
     private val attendanceDao: AttendanceDao,
     private val travelDao: TravelDao,
+    private val reminderDao: ReminderDao,
     private val keyValues: KeyValueDao,
     private val configRepository: ConfigRepository,
     private val engine: OrangeEngine,
@@ -135,6 +137,7 @@ internal class OfflineDayRepository @Inject constructor(
             addAll(studyMeasurements(window, nowMs))
             addAll(attendanceMeasurements(day))
             addAll(travelMeasurements(day))
+            addAll(taskMeasurements(window))
         }
         val evaluation = engine.evaluateDay(DayInput(day, measurements), config)
         dayRecordDao.replaceDay(evaluation.toSnapshot(nowMs, engine.version))
@@ -262,6 +265,12 @@ internal class OfflineDayRepository @Inject constructor(
         if (trips.isEmpty()) return emptyList()
         val onTime = trips.count { it.departedMs <= it.plannedLeaveMs!! + ON_TIME_GRACE_MS }
         return listOf(Measurement(MetricKeys.ON_TIME_DEPARTURES, onTime.toDouble()))
+    }
+
+    /** Holstrom reminders ticked off during the day. */
+    private suspend fun taskMeasurements(window: DayWindow): List<Measurement> {
+        val done = reminderDao.completionsBetween(window.startMs, window.endMs)
+        return if (done > 0) listOf(Measurement(MetricKeys.TASKS_COMPLETED, done.toDouble())) else emptyList()
     }
 
     private companion object {

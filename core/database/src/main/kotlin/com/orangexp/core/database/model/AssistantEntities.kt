@@ -1,6 +1,7 @@
 package com.orangexp.core.database.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
@@ -32,6 +33,23 @@ data class ReminderEntity(
     val status: String = "ACTIVE",
     val createdMs: Long,
     val completedMs: Long? = null,
+)
+
+/**
+ * A reminder ticked off as done. Repeating reminders are completed once per
+ * occurrence, so completions are counted here rather than on the reminder.
+ */
+@Entity(
+    tableName = "reminder_completions",
+    indices = [Index("completedMs"), Index("reminderId")],
+    foreignKeys = [
+        ForeignKey(entity = ReminderEntity::class, parentColumns = ["id"], childColumns = ["reminderId"], onDelete = ForeignKey.SET_NULL),
+    ],
+)
+data class ReminderCompletionEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val reminderId: Long?,
+    val completedMs: Long,
 )
 
 /** One line of the conversation with Holstrom. */

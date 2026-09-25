@@ -31,6 +31,7 @@ import com.orangexp.core.database.model.DayStateFindingEntity
 import com.orangexp.core.database.model.DeviceEventEntity
 import com.orangexp.core.database.model.KeyValueEntity
 import com.orangexp.core.database.model.LocationFixEntity
+import com.orangexp.core.database.model.ReminderCompletionEntity
 import com.orangexp.core.database.model.ReminderEntity
 import com.orangexp.core.database.model.SleepSessionEntity
 import com.orangexp.core.database.model.StepSampleEntity
@@ -50,7 +51,7 @@ import com.orangexp.core.database.model.UnitEntity
  * migration; exported schemas live in `core/database/schemas`.
  *
  * - v2: movement tracking (fixes, step samples, activity transitions) and competitions.
- * - v3: Holstrom reminders and conversation.
+ * - v3: Holstrom reminders, their completions and the conversation.
  */
 @Database(
     version = 3,
@@ -83,6 +84,7 @@ import com.orangexp.core.database.model.UnitEntity
         TeamMemberEntity::class,
         CompetitionMemberEntity::class,
         ReminderEntity::class,
+        ReminderCompletionEntity::class,
         AssistantMessageEntity::class,
     ],
 )
