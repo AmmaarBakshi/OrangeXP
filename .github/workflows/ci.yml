@@ -54,12 +54,8 @@ jobs:
           dupes=$(grep -ho 'name="[a-z_0-9]*"' */*/src/main/res/values/strings.xml app/src/main/res/values/strings.xml | sort | uniq -d)
           if [ -n "$dupes" ]; then echo "Duplicate string names: $dupes"; exit 1; fi
       - name: Unit tests
-        env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
         run: ./gradlew testDebugUnitTest --stacktrace
       - name: Debug APK
-        env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
         run: ./gradlew assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:

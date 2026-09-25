@@ -45,7 +45,6 @@ jobs:
 
       - name: Build signed APK
         env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
           ORANGEXP_KEYSTORE_PASSWORD: ${{ secrets.ORANGEXP_KEYSTORE_PASSWORD }}
           ORANGEXP_KEY_ALIAS: ${{ secrets.ORANGEXP_KEY_ALIAS }}
           ORANGEXP_KEY_PASSWORD: ${{ secrets.ORANGEXP_KEY_PASSWORD }}

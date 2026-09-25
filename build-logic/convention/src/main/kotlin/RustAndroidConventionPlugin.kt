@@ -44,7 +44,9 @@ class RustAndroidConventionPlugin : Plugin<Project> {
 
         val androidComponents = extensions.getByType<LibraryAndroidComponentsExtension>()
         // Prefer an explicit ANDROID_NDK_HOME, otherwise the newest NDK in the SDK.
+        // A blank value (an unset variable forwarded by CI) counts as absent.
         val ndkHome = providers.environmentVariable("ANDROID_NDK_HOME")
+            .filter { it.isNotBlank() }
             .orElse(androidComponents.sdkComponents.sdkDirectory.map { sdk -> latestNdk(sdk.asFile).orEmpty() })
 
         val cargoBuild = tasks.register<CargoNdkBuildTask>("cargoNdkBuild") {
