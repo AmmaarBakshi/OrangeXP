@@ -144,5 +144,6 @@ object NotificationChannels {
             NotificationManager.IMPORTANCE_HIGH,
         ).apply { description = context.getString(R.string.channel_departures_description) }
         context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+        com.orangexp.core.work.holstrom.HolstromNotifier.createChannels(context)
     }
 }
