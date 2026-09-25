@@ -5,6 +5,7 @@
 //! platform-independent modules and is tested there.
 
 use crate::adherence::{self, AdherenceResult, WorkBlock};
+use crate::commands::{self, CommandInput, ParsedCommand, ReminderFire, ReminderSchedule};
 use crate::competitions::{self, Competition, CompetitionConfig, CompetitionPlan, TeammateStats};
 use crate::config::{ConfigIssue, EngineConfig};
 use crate::daily::{self, DayEvaluation, DayInput, HistoryEvaluation, HistoryInput};
@@ -160,4 +161,18 @@ pub fn rank_teammates(
     config: CompetitionConfig,
 ) -> Vec<TeammateStats> {
     competitions::rank_teammates(&competitions, today, &config)
+}
+
+#[uniffi::export]
+pub fn parse_command(input: CommandInput) -> ParsedCommand {
+    commands::parse_command(&input)
+}
+
+#[uniffi::export]
+pub fn next_reminder_fire(
+    schedule: ReminderSchedule,
+    after_ms: i64,
+    utc_offset_minutes: i32,
+) -> Option<ReminderFire> {
+    commands::next_fire(&schedule, after_ms, utc_offset_minutes)
 }
