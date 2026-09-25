@@ -17,6 +17,7 @@
 //! | [`syllabus`]    | deadline-aware study scheduling                         |
 //! | [`movement`]    | walking vs. vehicle from GPS, step cadence and hints    |
 //! | [`competitions`]| competition capacity planning and teammate ranking      |
+//! | [`commands`]    | natural-language reminders, deadlines, phone actions    |
 //! | [`adherence`]   | planned vs. actual work                                 |
 //!
 //! The crate knows nothing about Android. It never reads clocks, time zones,
@@ -25,6 +26,7 @@
 
 pub mod adherence;
 pub mod category;
+pub mod commands;
 pub mod competitions;
 pub mod config;
 pub mod daily;
