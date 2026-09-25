@@ -34,6 +34,7 @@ include(":core:data")
 include(":core:work")
 include(":core:designsystem")
 include(":core:ui")
+include(":core:llm")
 
 include(":feature:today")
 include(":feature:history")
